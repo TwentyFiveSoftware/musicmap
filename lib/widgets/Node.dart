@@ -17,7 +17,7 @@ class Node extends StatelessWidget {
         child: Text(nodeInfo.text),
         padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).primaryColorDark,
           borderRadius: BorderRadius.circular(nodeInfo.type == NodeType.ARTIST ? 50 : 0),
         ),
       ),

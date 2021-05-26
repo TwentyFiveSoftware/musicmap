@@ -75,7 +75,7 @@ class PathPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = Colors.blue
+      ..color = Color(0xFFA0CE81)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 
