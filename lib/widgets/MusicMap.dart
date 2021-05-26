@@ -38,7 +38,7 @@ class _MusicMapState extends State<MusicMap> {
               widget.nodes.firstWhere((n) => n.id == edge.fromNodeId).key,
               widget.nodes.firstWhere((n) => n.id == edge.toNodeId).key))
           .toList(),
-      ...widget.nodes.map((node) => Node(offset, node)).toList(),
+      ...widget.nodes.map((node) => Node(offset, node, () => setState(() {}))).toList(),
     ]);
   }
 }

@@ -27,10 +27,12 @@ class MyApp extends StatelessWidget {
 List<NodeInfo> nodes = [
   NodeInfo(0, 30, 200, 'Alan Walker', NodeType.ARTIST),
   NodeInfo(1, 100, 300, 'Faded', NodeType.SONG),
+  NodeInfo(2, 150, 100, 'Alone', NodeType.SONG),
 ];
 
 List<EdgeInfo> edges = [
   EdgeInfo(0, 1),
+  EdgeInfo(0, 2),
 ];
 
 class Home extends StatelessWidget {

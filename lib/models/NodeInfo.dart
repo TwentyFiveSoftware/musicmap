@@ -7,8 +7,8 @@ enum NodeType {
 
 class NodeInfo {
   final int id;
-  final double x;
-  final double y;
+  double x;
+  double y;
   final String text;
   final NodeType type;
   final GlobalKey key = GlobalKey();
