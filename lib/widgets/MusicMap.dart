@@ -49,7 +49,7 @@ class _MusicMapState extends State<MusicMap> {
         }),
         child: SizedBox.expand(
           child: Container(
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).backgroundColor,
           ),
         ),
       ),

@@ -37,7 +37,7 @@ class _NodeState extends State<Node> {
         },
         child: Container(
           key: widget.nodeInfo.key,
-          child: Text(widget.nodeInfo.text),
+          child: Text(widget.nodeInfo.text, style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color)),
           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColorDark,

@@ -2,36 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import './models/NodeInfo.dart';
 import './models/EdgeInfo.dart';
-import './widgets/MusicMap.dart';
+import './screens/HomeScreen.dart';
+import './screens/AddScreen.dart';
 
 void main() {
   runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
-
-    return MaterialApp(
-      title: 'MusicMap',
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Color(0xFFFFFFFF),
-        primaryColorDark: Color(0xFFF4F4F4),
-        accentColor: Color(0xFFA0CE81),
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: Color(0xFF282C34),
-        primaryColorDark: Color(0xFF21252B),
-        accentColor: Color(0xFFA0CE81),
-      ),
-      themeMode: ThemeMode.system,
-      home: Home(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
 }
 
 List<NodeInfo> nodes = [
@@ -45,25 +20,42 @@ List<EdgeInfo> edges = [
   EdgeInfo(0, 2),
 ];
 
-class Home extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('MusicMap'),
-        backgroundColor: Theme.of(context).primaryColorDark,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {},
-          ),
-        ],
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+
+    return MaterialApp(
+      title: 'MusicMap',
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: Color(0xFFFFFFFF),
+        primaryColorDark: Color(0xFFF4F4F4),
+        accentColor: Color(0xFFA0CE81),
+        backgroundColor: Color(0xFFFFFFFF),
+        scaffoldBackgroundColor: Color(0xFFFFFFFF),
+        cursorColor: Color(0xFFA0CE81),
+        textTheme: TextTheme(bodyText2: TextStyle(color: Colors.black)),
+        hintColor: Colors.black38,
       ),
-      body: MusicMap(nodes, edges),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Color(0xFF282C34),
+        primaryColorDark: Color(0xFF21252B),
+        accentColor: Color(0xFFA0CE81),
+        backgroundColor: Color(0xFF282C34),
+        scaffoldBackgroundColor: Color(0xFF282C34),
+        cursorColor: Color(0xFFA0CE81),
+        textTheme: TextTheme(bodyText2: TextStyle(color: Colors.white)),
+        hintColor: Colors.white38,
+      ),
+      themeMode: ThemeMode.system,
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      routes: {
+        '/': (_) => HomeScreen(nodes, edges),
+        '/add': (_) => AddScreen(),
+      },
     );
   }
 }
