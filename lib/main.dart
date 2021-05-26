@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import './models/NodeInfo.dart';
 import './models/EdgeInfo.dart';
 import './widgets/MusicMap.dart';
@@ -10,14 +11,23 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+
     return MaterialApp(
       title: 'MusicMap',
       theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: Color(0xFFFFFFFF),
+        primaryColorDark: Color(0xFFF4F4F4),
+        accentColor: Color(0xFFA0CE81),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
         primaryColor: Color(0xFF282C34),
         primaryColorDark: Color(0xFF21252B),
         accentColor: Color(0xFFA0CE81),
-        brightness: Brightness.dark,
       ),
+      themeMode: ThemeMode.system,
       home: Home(),
       debugShowCheckedModeBanner: false,
     );
