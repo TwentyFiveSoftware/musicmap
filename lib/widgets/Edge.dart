@@ -1,42 +1,54 @@
 import 'package:flutter/material.dart';
 
-class Edge extends StatelessWidget {
+class Edge extends StatefulWidget {
   final GlobalKey fromNodeKey;
   final GlobalKey toNodeKey;
 
   Edge(this.fromNodeKey, this.toNodeKey);
 
+  @override
+  _EdgeState createState() => _EdgeState();
+}
+
+class _EdgeState extends State<Edge> {
+  NodeTransform fromNodeTransform = NodeTransform();
+  NodeTransform toNodeTransform = NodeTransform();
+
   NodeTransform getNodeTransform(GlobalKey nodeKey) {
-    RenderBox box = nodeKey.currentContext.findRenderObject() as RenderBox;
-    Offset pos = box.localToGlobal(Offset.zero);
-    return NodeTransform(pos.dx, pos.dy, box.size.width, box.size.height);
+    try {
+      RenderBox box = nodeKey.currentContext.findRenderObject() as RenderBox;
+      Offset pos = box.localToGlobal(Offset.zero);
+      return NodeTransform(x: pos.dx, y: pos.dy, width: box.size.width, height: box.size.height);
+    } catch (_) {
+      return NodeTransform();
+    }
   }
 
-  Future<Widget> calculateConnection() async {
-    NodeTransform fromNodeTransform;
-    NodeTransform toNodeTransform;
-
-    await Future.microtask(() {
-      fromNodeTransform = getNodeTransform(fromNodeKey);
-      toNodeTransform = getNodeTransform(toNodeKey);
+  void updateTransforms() {
+    setState(() {
+      fromNodeTransform = getNodeTransform(widget.fromNodeKey);
+      toNodeTransform = getNodeTransform(widget.toNodeKey);
     });
+  }
 
-    return Connection(
-      fromNodeTransform.x + fromNodeTransform.width / 2,
-      fromNodeTransform.y + fromNodeTransform.height,
-      toNodeTransform.x + toNodeTransform.width / 2,
-      toNodeTransform.y,
-    );
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) => updateTransforms());
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: calculateConnection(),
-      builder: (_, AsyncSnapshot<Widget> snapshot) => Positioned(
-        top: 0,
-        left: 0,
-        child: snapshot.hasData ? snapshot.data : Container(),
+    updateTransforms();
+
+    return Positioned(
+      top: 0,
+      left: 0,
+      child: Connection(
+        fromNodeTransform.x + fromNodeTransform.width / 2,
+        fromNodeTransform.y + fromNodeTransform.height / 2,
+        toNodeTransform.x + toNodeTransform.width / 2,
+        toNodeTransform.y + toNodeTransform.height / 2,
       ),
     );
   }
@@ -45,7 +57,7 @@ class Edge extends StatelessWidget {
 class NodeTransform {
   final double x, y, width, height;
 
-  NodeTransform(this.x, this.y, this.width, this.height);
+  NodeTransform({this.x = 0, this.y = 0, this.width = 0, this.height = 0});
 }
 
 class Connection extends StatelessWidget {

@@ -19,23 +19,26 @@ class _MusicMapState extends State<MusicMap> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onPanUpdate: (details) => setState(() {
-        offset = Offset(offset.dx + details.delta.dx, offset.dy + details.delta.dy);
-      }),
-      child: Stack(children: [
-        SizedBox.expand(
+    return Stack(children: [
+      GestureDetector(
+        onPanUpdate: (details) => setState(() {
+          offset = Offset(
+            offset.dx + details.delta.dx,
+            offset.dy + details.delta.dy,
+          );
+        }),
+        child: SizedBox.expand(
           child: Container(
             color: Theme.of(context).primaryColor,
           ),
         ),
-        ...widget.nodes.map((node) => Node(offset, node)).toList(),
-        ...widget.edges
-            .map((edge) => Edge(
-                widget.nodes.firstWhere((n) => n.id == edge.fromNodeId).key,
-                widget.nodes.firstWhere((n) => n.id == edge.toNodeId).key))
-            .toList()
-      ]),
-    );
+      ),
+      ...widget.edges
+          .map((edge) => Edge(
+              widget.nodes.firstWhere((n) => n.id == edge.fromNodeId).key,
+              widget.nodes.firstWhere((n) => n.id == edge.toNodeId).key))
+          .toList(),
+      ...widget.nodes.map((node) => Node(offset, node)).toList(),
+    ]);
   }
 }
