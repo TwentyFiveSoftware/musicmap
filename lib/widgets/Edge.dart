@@ -42,13 +42,13 @@ class _EdgeState extends State<Edge> {
     updateTransforms();
 
     return Positioned(
-      top: 0,
+      top: -AppBar().preferredSize.height,
       left: 0,
       child: Connection(
         fromNodeTransform.x + fromNodeTransform.width / 2,
-        fromNodeTransform.y + fromNodeTransform.height / 2,
+        fromNodeTransform.y,
         toNodeTransform.x + toNodeTransform.width / 2,
-        toNodeTransform.y + toNodeTransform.height / 2,
+        toNodeTransform.y,
       ),
     );
   }
