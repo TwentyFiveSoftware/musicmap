@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 import '../models/SpotifySong.dart';
 import '../requests/spotifyApiRequest.dart';
+import '../database/getDatabase.dart';
 
 class AddScreen extends StatefulWidget {
   @override
@@ -14,32 +16,41 @@ class _AddScreenState extends State<AddScreen> {
   @override
   void initState() {
     super.initState();
-
-    (() async {
-      searchQueryController.addListener(() async {
-        if (searchQueryController.text.length == 0) {
-          setState(() {
-            songs = [];
-          });
-          return;
-        }
-
-        Map<String, dynamic> response = await spotifyApiRequest(
-            'search?type=track&market=DE&q=${searchQueryController.text}');
-
-        List<dynamic> items = response['tracks']['items'];
-
-        setState(() {
-          songs = items.map((json) => SpotifySong.fromJson(json)).toList();
-        });
-      });
-    })();
+    searchQueryController.addListener(searchChangeListener);
   }
 
   @override
   void dispose() {
+    searchQueryController.removeListener(searchChangeListener);
     searchQueryController.dispose();
     super.dispose();
+  }
+
+  void searchChangeListener() async {
+    if (searchQueryController.text.length == 0) {
+      setState(() {
+        songs = [];
+      });
+      return;
+    }
+
+    Map<String, dynamic> response = await spotifyApiRequest(
+        'search?type=track&market=DE&q=${searchQueryController.text}');
+
+    List<dynamic> items = response['tracks']['items'];
+
+    try {
+      setState(() {
+        songs = items.map((json) => SpotifySong.fromJson(json)).toList();
+      });
+    } catch (_) {}
+  }
+
+  void selectSong(BuildContext context, SpotifySong song) async {
+    await (await getDatabase()).insert('songs', song.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+
+    Navigator.of(context).pop();
   }
 
   @override
@@ -69,15 +80,17 @@ class _AddScreenState extends State<AddScreen> {
       body: ListView.separated(
         padding: const EdgeInsets.all(8),
         itemCount: songs.length,
-        itemBuilder: (BuildContext context, int index) => ListTile(
-          leading: Image.network(songs[index].album.imageSmallUrl, width: 50),
-          title: Text(songs[index].name),
-          subtitle: Text(songs[index]
-              .artists
-              .map((artist) => artist.name)
-              .toList()
-              .join(', ')),
-          tileColor: Theme.of(context).backgroundColor,
+        itemBuilder: (BuildContext context, int index) => InkWell(
+          onTap: () => selectSong(context, songs[index]),
+          child: ListTile(
+            leading: Image.network(songs[index].album.imageSmallUrl, width: 50),
+            title: Text(songs[index].name),
+            subtitle: Text(songs[index]
+                .artists
+                .map((artist) => artist.name)
+                .toList()
+                .join(', ')),
+          ),
         ),
         separatorBuilder: (BuildContext context, int index) => Divider(),
       ),

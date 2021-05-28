@@ -5,10 +5,14 @@ import './models/NodeInfo.dart';
 import './models/EdgeInfo.dart';
 import './screens/HomeScreen.dart';
 import './screens/AddScreen.dart';
+import './database/getDatabase.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterConfig.loadEnvVariables();
+
+  final db = await getDatabase();
+  print(await db.query('songs'));
 
   runApp(MyApp());
 }
