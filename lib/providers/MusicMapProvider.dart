@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/EdgeInfo.dart';
 import '../models/NodeInfo.dart';
 import '../models/DatabaseSong.dart';
+import '../models/DatabaseAlbum.dart';
 import '../database/getDatabase.dart';
 
 class MusicMapProvider with ChangeNotifier {
@@ -14,9 +15,12 @@ class MusicMapProvider with ChangeNotifier {
 
   Future<void> fetchNodesFromDatabase() async {
     final db = await getDatabase();
-    List<Map<String, dynamic>> songs = await db.query('songs');
+
+    List<DatabaseSong> songs = (await db.query('songs')).map((row) => DatabaseSong.fromDatabase(row)).toList();
+    List<DatabaseAlbum> albums = (await db.query('albums')).map((row) => DatabaseAlbum.fromDatabase(row)).toList();
+
     _nodes = songs
-        .map((song) => SongNodeInfo(DatabaseSong.fromDatabase(song)))
+        .map((song) => SongNodeInfo(song, albums.firstWhere((album) => album.id == song.albumId)))
         .toList();
 
     notifyListeners();

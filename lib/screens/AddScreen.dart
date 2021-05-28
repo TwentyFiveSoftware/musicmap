@@ -52,6 +52,9 @@ class _AddScreenState extends State<AddScreen> {
     await (await getDatabase()).insert('songs', song.toDatabaseSong().toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
 
+    await (await getDatabase()).insert('albums', song.album.toDatabaseAlbum().toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+
     await Provider.of<MusicMapProvider>(context, listen: false)
         .fetchNodesFromDatabase();
 

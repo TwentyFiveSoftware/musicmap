@@ -50,16 +50,28 @@ class _NodeState extends State<Node> {
         },
         child: Container(
           key: widget.nodeInfo.key,
-          child: Text(widget.nodeInfo.text,
-              style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyText2.color)),
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColorDark,
-            borderRadius: BorderRadius.circular(
-                widget.nodeInfo.type == NodeType.ARTIST ? 50 : 0),
+          width: 300,
+          child: ListTile(
+            contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+            leading: Image.network(widget.nodeInfo.imageUrl, width: 64),
+            title: Text(widget.nodeInfo.title),
+            subtitle: Text(widget.nodeInfo.subtitle),
+            tileColor: Theme.of(context).primaryColorDark,
           ),
         ),
+
+        // child: Container(
+        //   key: widget.nodeInfo.key,
+        //   child: Text(widget.nodeInfo.text,
+        //       style: TextStyle(
+        //           color: Theme.of(context).textTheme.bodyText2.color)),
+        //   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+        //   decoration: BoxDecoration(
+        //     color: Theme.of(context).primaryColorDark,
+        //     borderRadius: BorderRadius.circular(
+        //         widget.nodeInfo.type == NodeType.ARTIST ? 50 : 0),
+        //   ),
+        // ),
       ),
     );
   }

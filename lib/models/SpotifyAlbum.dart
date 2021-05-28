@@ -1,4 +1,5 @@
 import './SpotifyArtist.dart';
+import './DatabaseAlbum.dart';
 
 class SpotifyAlbum {
   final String id;
@@ -21,4 +22,6 @@ class SpotifyAlbum {
         artists = (json['artists'] as List<dynamic>)
             .map((a) => SpotifyArtist.fromJson(a))
             .toList();
+
+  DatabaseAlbum toDatabaseAlbum() => DatabaseAlbum(id, name, imageSmallUrl);
 }
