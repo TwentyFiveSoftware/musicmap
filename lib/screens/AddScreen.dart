@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../models/SpotifySong.dart';
+import '../requests/spotifyApiRequest.dart';
 
 class AddScreen extends StatefulWidget {
   @override
@@ -12,8 +9,6 @@ class AddScreen extends StatefulWidget {
 
 class _AddScreenState extends State<AddScreen> {
   final TextEditingController searchQueryController = TextEditingController();
-  final Client client = Client();
-  SharedPreferences sharedPreferences;
   List<SpotifySong> songs = [];
 
   @override
@@ -21,10 +16,6 @@ class _AddScreenState extends State<AddScreen> {
     super.initState();
 
     (() async {
-      sharedPreferences = await SharedPreferences.getInstance();
-      String spotifyAccessToken =
-          sharedPreferences.getString('SPOTIFY_ACCESS_TOKEN');
-
       searchQueryController.addListener(() async {
         if (searchQueryController.text.length == 0) {
           setState(() {
@@ -33,14 +24,10 @@ class _AddScreenState extends State<AddScreen> {
           return;
         }
 
-        Response response = await client.get(
-            Uri.parse(
-                'https://api.spotify.com/v1/search?type=track&market=DE&q=${searchQueryController.text}'),
-            headers: {'authorization': 'Bearer $spotifyAccessToken'});
+        Map<String, dynamic> response = await spotifyApiRequest(
+            'search?type=track&market=DE&q=${searchQueryController.text}');
 
-        // print(jsonDecode(response.body)['tracks']['items']);
-        Map<String, dynamic> tracks = jsonDecode(response.body)['tracks'];
-        List<dynamic> items = tracks['items'];
+        List<dynamic> items = response['tracks']['items'];
 
         setState(() {
           songs = items.map((json) => SpotifySong.fromJson(json)).toList();
@@ -52,7 +39,6 @@ class _AddScreenState extends State<AddScreen> {
   @override
   void dispose() {
     searchQueryController.dispose();
-    client.close();
     super.dispose();
   }
 

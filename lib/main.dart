@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import './models/NodeInfo.dart';
 import './models/EdgeInfo.dart';
 import './screens/HomeScreen.dart';
@@ -15,18 +11,6 @@ void main() async {
   await FlutterConfig.loadEnvVariables();
 
   runApp(MyApp());
-
-  http.Response response = await http
-      .post(Uri.parse('https://accounts.spotify.com/api/token'), body: {
-    'grant_type': 'client_credentials',
-    'token_type': 'bearer'
-  }, headers: {
-    'authorization':
-        'Basic ${base64Encode(utf8.encode(FlutterConfig.get('SPOTIFY_CLIENT_ID') + ':' + FlutterConfig.get('SPOTIFY_CLIENT_SECRET')))}'
-  });
-
-  (await SharedPreferences.getInstance()).setString(
-      'SPOTIFY_ACCESS_TOKEN', jsonDecode(response.body)['access_token']);
 }
 
 List<NodeInfo> nodes = [
