@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import '../models/NodeInfo.dart';
-import '../models/EdgeInfo.dart';
+import 'package:provider/provider.dart';
 import './Node.dart';
 import './Edge.dart';
+import '../models/NodeInfo.dart';
+import '../models/EdgeInfo.dart';
+import '../providers/MusicMapProvider.dart';
 
 const bool LONG_PRESS_TO_MOVE_MAP = false;
 
 class MusicMap extends StatefulWidget {
-  final List<NodeInfo> nodes;
-  final List<EdgeInfo> edges;
-
-  MusicMap(this.nodes, this.edges);
-
   @override
   _MusicMapState createState() => _MusicMapState();
 }
@@ -22,6 +19,9 @@ class _MusicMapState extends State<MusicMap> {
 
   @override
   Widget build(BuildContext context) {
+    List<NodeInfo> nodes = Provider.of<MusicMapProvider>(context, listen: true).nodes;
+    List<EdgeInfo> edges = Provider.of<MusicMapProvider>(context, listen: true).edges;
+
     return Stack(children: [
       GestureDetector(
         onLongPressStart: (_) => moveOffset = Offset.zero,
@@ -53,12 +53,12 @@ class _MusicMapState extends State<MusicMap> {
           ),
         ),
       ),
-      ...widget.edges
+      ...edges
           .map((edge) => Edge(
-              widget.nodes.firstWhere((n) => n.id == edge.fromNodeId).key,
-              widget.nodes.firstWhere((n) => n.id == edge.toNodeId).key))
+              nodes.firstWhere((n) => n.id == edge.fromNodeId).key,
+              nodes.firstWhere((n) => n.id == edge.toNodeId).key))
           .toList(),
-      ...widget.nodes
+      ...nodes
           .map((node) => Node(offset + moveOffset, node, () => setState(() {})))
           .toList(),
     ]);

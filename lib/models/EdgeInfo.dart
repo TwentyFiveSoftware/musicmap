@@ -1,6 +1,6 @@
 class EdgeInfo {
-  final int fromNodeId;
-  final int toNodeId;
+  final String fromNodeId;
+  final String toNodeId;
 
   EdgeInfo(this.fromNodeId, this.toNodeId);
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:musicmap/providers/MusicMapProvider.dart';
+import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import '../models/SpotifySong.dart';
 import '../requests/spotifyApiRequest.dart';
@@ -49,6 +51,9 @@ class _AddScreenState extends State<AddScreen> {
   void selectSong(BuildContext context, SpotifySong song) async {
     await (await getDatabase()).insert('songs', song.toDatabaseSong().toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
+
+    await Provider.of<MusicMapProvider>(context, listen: false)
+        .fetchNodesFromDatabase();
 
     Navigator.of(context).pop();
   }

@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
-import '../models/NodeInfo.dart';
-import '../models/EdgeInfo.dart';
 import '../widgets/MusicMap.dart';
 
 class HomeScreen extends StatelessWidget {
-  final List<NodeInfo> nodes;
-  final List<EdgeInfo> edges;
-
-  HomeScreen(this.nodes, this.edges);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +19,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: MusicMap(nodes, edges),
+      body: MusicMap(),
     );
   }
 }
