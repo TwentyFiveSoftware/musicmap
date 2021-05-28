@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:musicmap/models/SpotifyArtist.dart';
 import 'package:musicmap/providers/MusicMapProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -49,11 +50,28 @@ class _AddScreenState extends State<AddScreen> {
   }
 
   void selectSong(BuildContext context, SpotifySong song) async {
-    await (await getDatabase()).insert('songs', song.toDatabaseSong().toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    final db = await getDatabase();
 
-    await (await getDatabase()).insert('albums', song.album.toDatabaseAlbum().toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('songs', song.toDatabaseSong().toMap(),
+        conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    await db.insert('albums', song.album.toDatabaseAlbum().toMap(),
+        conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    for (SpotifyArtist artist in song.artists) {
+      final artistJson = await spotifyApiRequest('artists/${artist.id}');
+      final artistMap = {
+        'id': artistJson['id'],
+        'name': artistJson['name'],
+        'imageUrl': artistJson['images']
+            [(artistJson['images'] as List<dynamic>).length - 1]['url'],
+        'position_x': 0,
+        'position_y': 0,
+      };
+
+      await db.insert('artists', artistMap,
+          conflictAlgorithm: ConflictAlgorithm.ignore);
+    }
 
     await Provider.of<MusicMapProvider>(context, listen: false)
         .fetchNodesFromDatabase();

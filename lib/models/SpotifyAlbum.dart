@@ -23,5 +23,5 @@ class SpotifyAlbum {
             .map((a) => SpotifyArtist.fromJson(a))
             .toList();
 
-  DatabaseAlbum toDatabaseAlbum() => DatabaseAlbum(id, name, imageSmallUrl);
+  DatabaseAlbum toDatabaseAlbum() => DatabaseAlbum(id, name, imageLargeUrl);
 }

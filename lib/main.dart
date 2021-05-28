@@ -35,7 +35,10 @@ class MyApp extends StatelessWidget {
         backgroundColor: Color(0xFFFFFFFF),
         scaffoldBackgroundColor: Color(0xFFFFFFFF),
         cursorColor: Color(0xFFA0CE81),
-        textTheme: TextTheme(bodyText2: TextStyle(color: Colors.black)),
+        textTheme: TextTheme(
+          bodyText2: TextStyle(color: Colors.black),
+          bodyText1: TextStyle(color: Colors.black45, fontWeight: FontWeight.normal),
+        ),
         hintColor: Colors.black38,
       ),
       darkTheme: ThemeData(
@@ -46,7 +49,10 @@ class MyApp extends StatelessWidget {
         backgroundColor: Color(0xFF282C34),
         scaffoldBackgroundColor: Color(0xFF282C34),
         cursorColor: Color(0xFFA0CE81),
-        textTheme: TextTheme(bodyText2: TextStyle(color: Colors.white)),
+        textTheme: TextTheme(
+          bodyText2: TextStyle(color: Colors.white),
+          bodyText1: TextStyle(color: Colors.white60, fontWeight: FontWeight.normal),
+        ),
         hintColor: Colors.white38,
       ),
       themeMode: ThemeMode.system,
