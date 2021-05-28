@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:musicmap/widgets/SongCard.dart';
 import '../models/NodeInfo.dart';
 import '../models/DatabaseSong.dart';
+import '../models/DatabaseArtist.dart';
 import '../database/getDatabase.dart';
 import '../widgets/ArtistCard.dart';
+import '../widgets/SongCard.dart';
 
 class Node extends StatefulWidget {
   final Offset offset;
@@ -48,42 +49,18 @@ class _NodeState extends State<Node> {
 
             await db.update('songs', song.toMap(),
                 where: 'id = ?', whereArgs: [song.id]);
+          } else if (widget.nodeInfo is ArtistNodeInfo) {
+            DatabaseArtist artist = (widget.nodeInfo as ArtistNodeInfo).artist;
+            artist.positionX = widget.nodeInfo.x;
+            artist.positionY = widget.nodeInfo.y;
+
+            await db.update('artists', artist.toMap(),
+                where: 'id = ?', whereArgs: [artist.id]);
           }
         },
         child: widget.nodeInfo is ArtistNodeInfo
             ? ArtistCard(widget.nodeInfo)
             : SongCard(widget.nodeInfo),
-        // Container(
-        //   key: widget.nodeInfo.key,
-        //   width: 300,
-        //   child: widget.nodeInfo.type == NodeType.ARTIST
-        //       ? Card(
-        //           child: ListTile(
-        //             contentPadding: const EdgeInsets.symmetric(
-        //               vertical: 12.0,
-        //               horizontal: 10.0,
-        //             ),
-        //             leading: Image.network(
-        //               widget.nodeInfo.imageUrl,
-        //               width: 64,
-        //             ),
-        //             title: Text(widget.nodeInfo.title),
-        //             tileColor: Theme.of(context).primaryColorDark,
-        //           ),
-        //         )
-        //       : ListTile(
-        //           contentPadding: const EdgeInsets.symmetric(
-        //             vertical: 5.0,
-        //             horizontal: 10.0,
-        //           ),
-        //           leading: Image.network(
-        //             widget.nodeInfo.imageUrl,
-        //             width: 64,
-        //           ),
-        //           title: Text(widget.nodeInfo.title),
-        //           subtitle: Text(widget.nodeInfo.subtitle),
-        //           tileColor: Theme.of(context).primaryColorDark,
-        //         ),
       ),
     );
   }

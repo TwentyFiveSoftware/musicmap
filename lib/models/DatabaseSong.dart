@@ -4,8 +4,8 @@ class DatabaseSong {
   final String albumId;
   int positionX, positionY;
 
-  DatabaseSong(this.id, this.name, this.albumId, this.positionX,
-      this.positionY);
+  DatabaseSong(
+      this.id, this.name, this.albumId, this.positionX, this.positionY);
 
   Map<String, dynamic> toMap() => {
         'id': id,
