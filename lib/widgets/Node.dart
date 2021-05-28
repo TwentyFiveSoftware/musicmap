@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/NodeInfo.dart';
-import '../models/DatabaseSong.dart';
-import '../models/DatabaseArtist.dart';
-import '../database/getDatabase.dart';
 import '../widgets/ArtistCard.dart';
 import '../widgets/SongCard.dart';
+import '../database/updateNode.dart';
+import '../providers/MusicMapProvider.dart';
 
 class Node extends StatefulWidget {
   final Offset offset;
@@ -35,31 +35,16 @@ class _NodeState extends State<Node> {
               widget.nodeInfo, details.localOffsetFromOrigin);
         },
         onLongPressEnd: (_) async {
-          setState(() {
-            widget.nodeInfo.x = (widget.nodeInfo.x + moveDelta.dx).round();
-            widget.nodeInfo.y = (widget.nodeInfo.y + moveDelta.dy).round();
-            moveDelta = Offset.zero;
-          });
+          widget.nodeInfo.updatePosition(
+            (widget.nodeInfo.x + moveDelta.dx).round(),
+            (widget.nodeInfo.y + moveDelta.dy).round(),
+          );
+
+          await updateNode(widget.nodeInfo);
+          await Provider.of<MusicMapProvider>(context, listen: false).update();
 
           widget.updateNodePosition(null, null);
-
-          final db = await getDatabase();
-
-          if (widget.nodeInfo is SongNodeInfo) {
-            DatabaseSong song = (widget.nodeInfo as SongNodeInfo).song;
-            song.positionX = widget.nodeInfo.x;
-            song.positionY = widget.nodeInfo.y;
-
-            await db.update('songs', song.toMap(),
-                where: 'id = ?', whereArgs: [song.id]);
-          } else if (widget.nodeInfo is ArtistNodeInfo) {
-            DatabaseArtist artist = (widget.nodeInfo as ArtistNodeInfo).artist;
-            artist.positionX = widget.nodeInfo.x;
-            artist.positionY = widget.nodeInfo.y;
-
-            await db.update('artists', artist.toMap(),
-                where: 'id = ?', whereArgs: [artist.id]);
-          }
+          moveDelta = Offset.zero;
         },
         child: widget.nodeInfo is ArtistNodeInfo
             ? ArtistCard(widget.nodeInfo)

@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import './Node.dart';
 import './Edge.dart';
 import '../models/NodeInfo.dart';
-import '../models/EdgeInfo.dart';
 import '../models/CurrentlyMovedNodeInfo.dart';
 import '../providers/MusicMapProvider.dart';
 
@@ -31,10 +30,16 @@ class _MusicMapState extends State<MusicMap> {
 
   @override
   Widget build(BuildContext context) {
-    List<NodeInfo> nodes =
-        Provider.of<MusicMapProvider>(context, listen: true).nodes;
-    List<EdgeInfo> edges =
-        Provider.of<MusicMapProvider>(context, listen: true).edges;
+    MusicMapProvider provider = Provider.of<MusicMapProvider>(context, listen: true);
+
+    List<Edge> edgeWidgets = provider.edges
+        .map((edge) => Edge(
+              offset,
+              currentlyMovedNodeInfo,
+              provider.nodes.firstWhere((n) => n.id == edge.fromNodeId),
+              provider.nodes.firstWhere((n) => n.id == edge.toNodeId),
+            ))
+        .toList();
 
     return Stack(children: [
       GestureDetector(
@@ -50,15 +55,8 @@ class _MusicMapState extends State<MusicMap> {
           ),
         ),
       ),
-      ...edges
-          .map((edge) => Edge(
-                offset,
-                currentlyMovedNodeInfo,
-                nodes.firstWhere((n) => n.id == edge.fromNodeId),
-                nodes.firstWhere((n) => n.id == edge.toNodeId),
-              ))
-          .toList(),
-      ...nodes.map((node) => Node(offset, node, moveNode)).toList(),
+      ...edgeWidgets,
+      ...provider.nodes.map((node) => Node(offset, node, moveNode)).toList(),
     ]);
   }
 }

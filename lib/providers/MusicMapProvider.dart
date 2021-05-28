@@ -17,6 +17,7 @@ class MusicMapProvider with ChangeNotifier {
   Future<void> update() async {
     await _fetchNodesFromDatabase();
     await _fetchEdgesFromDatabase();
+    notifyListeners();
   }
 
   Future<void> _fetchNodesFromDatabase() async {
