@@ -9,3 +9,5 @@ Future<Database> getDatabase() async =>
       await db.execute(
           'CREATE TABLE IF NOT EXISTS artists(id TEXT PRIMARY KEY, name TEXT, imageUrl TEXT, position_x INTEGER, position_y INTEGER)');
     });
+
+Future<void> dropDatabase() async => deleteDatabase('musicmap.db');
