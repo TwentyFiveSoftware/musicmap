@@ -47,7 +47,7 @@ class _AddScreenState extends State<AddScreen> {
   }
 
   void selectSong(BuildContext context, SpotifySong song) async {
-    await (await getDatabase()).insert('songs', song.toMap(),
+    await (await getDatabase()).insert('songs', song.toDatabaseSong().toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
 
     Navigator.of(context).pop();

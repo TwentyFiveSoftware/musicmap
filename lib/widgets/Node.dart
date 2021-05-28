@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:musicmap/models/DatabaseSong.dart';
 import '../models/NodeInfo.dart';
+import '../database/getDatabase.dart';
 
 class Node extends StatefulWidget {
   final Offset offset;
@@ -28,16 +30,29 @@ class _NodeState extends State<Node> {
             widget.updateNodePosition();
           });
         },
-        onLongPressEnd: (_) {
+        onLongPressEnd: (_) async {
           setState(() {
-            widget.nodeInfo.x += moveDelta.dx;
-            widget.nodeInfo.y += moveDelta.dy;
+            widget.nodeInfo.x = (widget.nodeInfo.x + moveDelta.dx).round();
+            widget.nodeInfo.y = (widget.nodeInfo.y + moveDelta.dy).round();
             moveDelta = Offset.zero;
           });
+
+          final db = await getDatabase();
+
+          if (widget.nodeInfo is SongNodeInfo) {
+            DatabaseSong song = (widget.nodeInfo as SongNodeInfo).song;
+            song.positionX = widget.nodeInfo.x;
+            song.positionY = widget.nodeInfo.y;
+
+            await db.update('songs', song.toMap(),
+                where: 'id = ?', whereArgs: [song.id]);
+          }
         },
         child: Container(
           key: widget.nodeInfo.key,
-          child: Text(widget.nodeInfo.text, style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color)),
+          child: Text(widget.nodeInfo.text,
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText2.color)),
           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColorDark,

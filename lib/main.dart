@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_config/flutter_config.dart';
 import './models/NodeInfo.dart';
 import './models/EdgeInfo.dart';
+import './models/DatabaseSong.dart';
 import './screens/HomeScreen.dart';
 import './screens/AddScreen.dart';
 import './database/getDatabase.dart';
@@ -12,23 +13,20 @@ void main() async {
   await FlutterConfig.loadEnvVariables();
 
   final db = await getDatabase();
-  print(await db.query('songs'));
+  List<Map<String, dynamic>> songs = await db.query('songs');
+  List<NodeInfo> nodes = songs
+      .map((song) => SongNodeInfo(DatabaseSong.fromDatabase(song)))
+      .toList();
 
-  runApp(MyApp());
+  runApp(MyApp(nodes, []));
 }
 
-List<NodeInfo> nodes = [
-  NodeInfo(0, 30, 200, 'Alan Walker', NodeType.ARTIST),
-  NodeInfo(1, 100, 300, 'Faded', NodeType.SONG),
-  NodeInfo(2, 150, 100, 'Alone', NodeType.SONG),
-];
-
-List<EdgeInfo> edges = [
-  EdgeInfo(0, 1),
-  EdgeInfo(0, 2),
-];
-
 class MyApp extends StatelessWidget {
+  final List<NodeInfo> nodes;
+  final List<EdgeInfo> edges;
+
+  MyApp(this.nodes, this.edges);
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);

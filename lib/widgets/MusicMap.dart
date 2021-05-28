@@ -4,7 +4,7 @@ import '../models/EdgeInfo.dart';
 import './Node.dart';
 import './Edge.dart';
 
-const bool LONG_PRESS_TO_MOVE_MAP = true;
+const bool LONG_PRESS_TO_MOVE_MAP = false;
 
 class MusicMap extends StatefulWidget {
   final List<NodeInfo> nodes;
