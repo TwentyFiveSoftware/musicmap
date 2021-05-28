@@ -30,8 +30,9 @@ class _NodeState extends State<Node> {
         onLongPressMoveUpdate: (details) {
           setState(() {
             moveDelta = details.localOffsetFromOrigin;
-            widget.updateNodePosition();
           });
+          widget.updateNodePosition(
+              widget.nodeInfo, details.localOffsetFromOrigin);
         },
         onLongPressEnd: (_) async {
           setState(() {
@@ -39,6 +40,8 @@ class _NodeState extends State<Node> {
             widget.nodeInfo.y = (widget.nodeInfo.y + moveDelta.dy).round();
             moveDelta = Offset.zero;
           });
+
+          widget.updateNodePosition(null, null);
 
           final db = await getDatabase();
 

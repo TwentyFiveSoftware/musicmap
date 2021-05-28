@@ -1,63 +1,42 @@
 import 'package:flutter/material.dart';
+import '../models/NodeInfo.dart';
+import '../models/CurrentlyMovedNodeInfo.dart';
 
-class Edge extends StatefulWidget {
-  final GlobalKey fromNodeKey;
-  final GlobalKey toNodeKey;
+class Edge extends StatelessWidget {
+  final Offset offset;
+  final CurrentlyMovedNodeInfo currentlyMovedNodeInfo;
+  final NodeInfo fromNodeInfo;
+  final NodeInfo toNodeInfo;
 
-  Edge(this.fromNodeKey, this.toNodeKey);
-
-  @override
-  _EdgeState createState() => _EdgeState();
-}
-
-class _EdgeState extends State<Edge> {
-  NodeTransform fromNodeTransform = NodeTransform();
-  NodeTransform toNodeTransform = NodeTransform();
-
-  NodeTransform getNodeTransform(GlobalKey nodeKey) {
-    try {
-      RenderBox box = nodeKey.currentContext.findRenderObject() as RenderBox;
-      Offset pos = box.localToGlobal(Offset.zero);
-      return NodeTransform(x: pos.dx, y: pos.dy, width: box.size.width, height: box.size.height);
-    } catch (_) {
-      return NodeTransform();
-    }
-  }
-
-  void updateTransforms() {
-    setState(() {
-      fromNodeTransform = getNodeTransform(widget.fromNodeKey);
-      toNodeTransform = getNodeTransform(widget.toNodeKey);
-    });
-  }
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) => updateTransforms());
-    super.initState();
-  }
+  Edge(this.offset, this.currentlyMovedNodeInfo, this.fromNodeInfo,
+      this.toNodeInfo);
 
   @override
   Widget build(BuildContext context) {
-    updateTransforms();
+    int fromNodeOffset = fromNodeInfo.type == NodeType.ARTIST ? 70 : 42;
+    int toNodeOffset = toNodeInfo.type == NodeType.ARTIST ? 70 : 42;
+
+    Offset tempFromNodeOffset = (currentlyMovedNodeInfo != null &&
+            fromNodeInfo.id == currentlyMovedNodeInfo.nodeInfo.id)
+        ? currentlyMovedNodeInfo.currentMoveOffset
+        : Offset.zero;
+
+    Offset tempToNodeOffset = (currentlyMovedNodeInfo != null &&
+            toNodeInfo.id == currentlyMovedNodeInfo.nodeInfo.id)
+        ? currentlyMovedNodeInfo.currentMoveOffset
+        : Offset.zero;
 
     return Positioned(
-      top: -AppBar().preferredSize.height,
+      top: 0,
       left: 0,
       child: Connection(
-        fromNodeTransform.x + fromNodeTransform.width / 2,
-        fromNodeTransform.y,
-        toNodeTransform.x + toNodeTransform.width / 2,
-        toNodeTransform.y,
+        offset.dx + fromNodeInfo.x + fromNodeOffset + tempFromNodeOffset.dx,
+        offset.dy + fromNodeInfo.y + fromNodeOffset + tempFromNodeOffset.dy,
+        offset.dx + toNodeInfo.x + toNodeOffset + tempToNodeOffset.dx,
+        offset.dy + toNodeInfo.y + toNodeOffset + tempToNodeOffset.dy,
       ),
     );
   }
-}
-
-class NodeTransform {
-  final double x, y, width, height;
-
-  NodeTransform({this.x = 0, this.y = 0, this.width = 0, this.height = 0});
 }
 
 class Connection extends StatelessWidget {

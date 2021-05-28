@@ -22,7 +22,7 @@ class SongNodeInfo extends NodeInfo {
   DatabaseSong song;
 
   SongNodeInfo(DatabaseSong song, DatabaseAlbum album)
-      : super(song.id, song.positionX, song.positionY, song.name, album.name,
+      : super('song:${song.id}', song.positionX, song.positionY, song.name, album.name,
             album.imageUrl, NodeType.SONG) {
     this.song = song;
   }
@@ -32,7 +32,7 @@ class ArtistNodeInfo extends NodeInfo {
   DatabaseArtist artist;
 
   ArtistNodeInfo(DatabaseArtist artist)
-      : super(artist.id, artist.positionX, artist.positionY, artist.name, '',
+      : super('artist:${artist.id}', artist.positionX, artist.positionY, artist.name, '',
             artist.imageUrl, NodeType.ARTIST) {
     this.artist = artist;
   }

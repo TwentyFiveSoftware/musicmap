@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
             onPressed: () async {
               await dropDatabase();
               await getDatabase();
-              await Provider.of<MusicMapProvider>(context, listen: false).fetchNodesFromDatabase();
+              await Provider.of<MusicMapProvider>(context, listen: false).update();
             },
           ),
           IconButton(

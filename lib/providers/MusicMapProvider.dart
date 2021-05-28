@@ -11,10 +11,15 @@ class MusicMapProvider with ChangeNotifier {
   List<EdgeInfo> _edges = [];
 
   MusicMapProvider() {
-    fetchNodesFromDatabase();
+    update();
   }
 
-  Future<void> fetchNodesFromDatabase() async {
+  Future<void> update() async {
+    await _fetchNodesFromDatabase();
+    await _fetchEdgesFromDatabase();
+  }
+
+  Future<void> _fetchNodesFromDatabase() async {
     _nodes.clear();
 
     final db = await getDatabase();
@@ -33,8 +38,17 @@ class MusicMapProvider with ChangeNotifier {
 
     _nodes.addAll(songs.map((song) => SongNodeInfo(
         song, albums.firstWhere((album) => album.id == song.albumId))));
+  }
 
-    notifyListeners();
+  Future<void> _fetchEdgesFromDatabase() async {
+    _edges.clear();
+
+    final db = await getDatabase();
+
+    List<Map<String, dynamic>> artistSongLinks =
+        await db.query('artistSongLinks');
+    _edges.addAll(artistSongLinks.map((row) =>
+        EdgeInfo('artist:${row['artistId']}', 'song:${row['songId']}')));
   }
 
   List<NodeInfo> get nodes => _nodes;

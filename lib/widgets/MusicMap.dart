@@ -4,6 +4,7 @@ import './Node.dart';
 import './Edge.dart';
 import '../models/NodeInfo.dart';
 import '../models/EdgeInfo.dart';
+import '../models/CurrentlyMovedNodeInfo.dart';
 import '../providers/MusicMapProvider.dart';
 
 class MusicMap extends StatefulWidget {
@@ -13,6 +14,20 @@ class MusicMap extends StatefulWidget {
 
 class _MusicMapState extends State<MusicMap> {
   Offset offset = Offset.zero;
+  CurrentlyMovedNodeInfo currentlyMovedNodeInfo;
+
+  void moveNode(NodeInfo nodeInfo, Offset offset) {
+    if (nodeInfo == null) {
+      setState(() {
+        currentlyMovedNodeInfo = null;
+      });
+      return;
+    }
+
+    setState(() {
+      currentlyMovedNodeInfo = CurrentlyMovedNodeInfo(nodeInfo, offset);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +52,13 @@ class _MusicMapState extends State<MusicMap> {
       ),
       ...edges
           .map((edge) => Edge(
-              nodes.firstWhere((n) => n.id == edge.fromNodeId).key,
-              nodes.firstWhere((n) => n.id == edge.toNodeId).key))
+                offset,
+                currentlyMovedNodeInfo,
+                nodes.firstWhere((n) => n.id == edge.fromNodeId),
+                nodes.firstWhere((n) => n.id == edge.toNodeId),
+              ))
           .toList(),
-      ...nodes
-          .map((node) => Node(offset, node, () => setState(() {})))
-          .toList(),
+      ...nodes.map((node) => Node(offset, node, moveNode)).toList(),
     ]);
   }
 }
