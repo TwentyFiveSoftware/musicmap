@@ -19,8 +19,7 @@ Future<void> insertSong(SpotifySong song) async {
     final artistMap = {
       'id': artistJson['id'],
       'name': artistJson['name'],
-      'imageUrl': artistJson['images']
-          [(artistJson['images'] as List<dynamic>).length - 1]['url'],
+      'imageUrl': artistJson['images'][0]['url'],
       'position_x': 0,
       'position_y': 0,
     };
