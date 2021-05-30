@@ -5,6 +5,7 @@ import './Edge.dart';
 import '../models/NodeInfo.dart';
 import '../models/CurrentlyMovedNodeInfo.dart';
 import '../providers/MusicMapProvider.dart';
+import '../config/config.dart' as config;
 
 class MusicMap extends StatefulWidget {
   @override
@@ -52,11 +53,11 @@ class _MusicMapState extends State<MusicMap> {
           top: 0,
           child: InteractiveViewer(
             boundaryMargin: const EdgeInsets.all(double.infinity),
-            minScale: 0.1,
-            maxScale: 4,
+            minScale: config.MUSIC_MAP_MIN_SCALE,
+            maxScale: config.MUSIC_MAP_MAX_SCALE,
             child: SizedBox(
-              width: 2000,
-              height: 2000,
+              width: config.MUSIC_MAP_WIDTH,
+              height: config.MUSIC_MAP_HEIGHT,
               child: Stack(
                 // overflow: Overflow.visible,
                 children: [
