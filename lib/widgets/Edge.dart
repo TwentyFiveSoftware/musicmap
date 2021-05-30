@@ -3,13 +3,11 @@ import '../models/NodeInfo.dart';
 import '../models/CurrentlyMovedNodeInfo.dart';
 
 class Edge extends StatelessWidget {
-  final Offset offset;
   final CurrentlyMovedNodeInfo currentlyMovedNodeInfo;
   final NodeInfo fromNodeInfo;
   final NodeInfo toNodeInfo;
 
-  Edge(this.offset, this.currentlyMovedNodeInfo, this.fromNodeInfo,
-      this.toNodeInfo);
+  Edge(this.currentlyMovedNodeInfo, this.fromNodeInfo, this.toNodeInfo);
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +28,10 @@ class Edge extends StatelessWidget {
       top: 0,
       left: 0,
       child: Connection(
-        offset.dx + fromNodeInfo.x + fromNodeOffset + tempFromNodeOffset.dx,
-        offset.dy + fromNodeInfo.y + fromNodeOffset + tempFromNodeOffset.dy,
-        offset.dx + toNodeInfo.x + toNodeOffset + tempToNodeOffset.dx,
-        offset.dy + toNodeInfo.y + toNodeOffset + tempToNodeOffset.dy,
+        fromNodeInfo.x + fromNodeOffset + tempFromNodeOffset.dx,
+        fromNodeInfo.y + fromNodeOffset + tempFromNodeOffset.dy,
+        toNodeInfo.x + toNodeOffset + tempToNodeOffset.dx,
+        toNodeInfo.y + toNodeOffset + tempToNodeOffset.dy,
       ),
     );
   }

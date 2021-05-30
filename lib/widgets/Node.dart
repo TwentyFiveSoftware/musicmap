@@ -7,11 +7,10 @@ import '../database/updateNode.dart';
 import '../providers/MusicMapProvider.dart';
 
 class Node extends StatefulWidget {
-  final Offset offset;
   final NodeInfo nodeInfo;
   final Function updateNodePosition;
 
-  Node(this.offset, this.nodeInfo, this.updateNodePosition);
+  Node(this.nodeInfo, this.updateNodePosition);
 
   @override
   _NodeState createState() => _NodeState();
@@ -23,8 +22,8 @@ class _NodeState extends State<Node> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      left: widget.offset.dx + widget.nodeInfo.x + moveDelta.dx,
-      top: widget.offset.dy + widget.nodeInfo.y + moveDelta.dy,
+      left: widget.nodeInfo.x + moveDelta.dx,
+      top: widget.nodeInfo.y + moveDelta.dy,
       child: GestureDetector(
         onLongPressStart: (_) => moveDelta = Offset.zero,
         onLongPressMoveUpdate: (details) {

@@ -21,14 +21,14 @@ class MusicMapProvider with ChangeNotifier {
   }
 
   Future<void> _fetchNodesFromDatabase() async {
-    _nodes.clear();
+    List<NodeInfo> newNodes = [];
 
     final db = await getDatabase();
 
     List<DatabaseArtist> artists = (await db.query('artists'))
         .map((row) => DatabaseArtist.fromDatabase(row))
         .toList();
-    _nodes.addAll(artists.map((artist) => ArtistNodeInfo(artist)));
+    newNodes.addAll(artists.map((artist) => ArtistNodeInfo(artist)));
 
     List<DatabaseSong> songs = (await db.query('songs'))
         .map((row) => DatabaseSong.fromDatabase(row))
@@ -37,22 +37,29 @@ class MusicMapProvider with ChangeNotifier {
         .map((row) => DatabaseAlbum.fromDatabase(row))
         .toList();
 
-    _nodes.addAll(songs.map((song) => SongNodeInfo(
+    newNodes.addAll(songs.map((song) => SongNodeInfo(
         song, albums.firstWhere((album) => album.id == song.albumId))));
+
+    _nodes = newNodes;
   }
 
   Future<void> _fetchEdgesFromDatabase() async {
-    _edges.clear();
+    List<EdgeInfo> newEdges = [];
 
     final db = await getDatabase();
 
     List<Map<String, dynamic>> artistSongLinks =
         await db.query('artistSongLinks');
-    _edges.addAll(artistSongLinks.map((row) =>
+    newEdges.addAll(artistSongLinks.map((row) =>
         EdgeInfo('artist:${row['artistId']}', 'song:${row['songId']}')));
+
+    _edges = newEdges;
   }
 
   List<NodeInfo> get nodes => _nodes;
 
   List<EdgeInfo> get edges => _edges;
+
+  Map<String, NodeInfo> get nodeMap =>
+      Map.fromIterable(_nodes, key: (n) => n.id, value: (n) => n);
 }

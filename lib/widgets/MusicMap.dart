@@ -12,7 +12,6 @@ class MusicMap extends StatefulWidget {
 }
 
 class _MusicMapState extends State<MusicMap> {
-  Offset offset = Offset.zero;
   CurrentlyMovedNodeInfo currentlyMovedNodeInfo;
 
   void moveNode(NodeInfo nodeInfo, Offset offset) {
@@ -30,33 +29,55 @@ class _MusicMapState extends State<MusicMap> {
 
   @override
   Widget build(BuildContext context) {
-    MusicMapProvider provider = Provider.of<MusicMapProvider>(context, listen: true);
+    MusicMapProvider provider =
+        Provider.of<MusicMapProvider>(context, listen: true);
+
+    Map<String, NodeInfo> nodeMap = provider.nodeMap;
+
+    List<Node> nodeWidgets =
+        provider.nodes.map((node) => Node(node, moveNode)).toList();
 
     List<Edge> edgeWidgets = provider.edges
         .map((edge) => Edge(
-              offset,
               currentlyMovedNodeInfo,
-              provider.nodes.firstWhere((n) => n.id == edge.fromNodeId),
-              provider.nodes.firstWhere((n) => n.id == edge.toNodeId),
+              nodeMap[edge.fromNodeId],
+              nodeMap[edge.toNodeId],
             ))
         .toList();
 
-    return Stack(children: [
-      GestureDetector(
-        onPanUpdate: (details) => setState(() {
-          offset = Offset(
-            offset.dx + details.delta.dx,
-            offset.dy + details.delta.dy,
-          );
-        }),
-        child: SizedBox.expand(
-          child: Container(
-            color: Theme.of(context).backgroundColor,
+    return Stack(
+      children: [
+        Positioned(
+          left: 0,
+          top: 0,
+          child: InteractiveViewer(
+            boundaryMargin: const EdgeInsets.all(double.infinity),
+            minScale: 0.1,
+            maxScale: 4,
+            child: SizedBox(
+              width: 2000,
+              height: 2000,
+              child: Stack(
+                // overflow: Overflow.visible,
+                children: [
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Theme.of(context).primaryColorDark,
+                          width: 5,
+                        ),
+                      ),
+                    ),
+                  ),
+                  ...edgeWidgets,
+                  ...nodeWidgets,
+                ],
+              ),
+            ),
           ),
         ),
-      ),
-      ...edgeWidgets,
-      ...provider.nodes.map((node) => Node(offset, node, moveNode)).toList(),
-    ]);
+      ],
+    );
   }
 }
