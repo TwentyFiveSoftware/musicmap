@@ -13,6 +13,7 @@ class MusicMapProvider with ChangeNotifier {
   List<DatabaseArtist> _artists = [];
   List<Map<String, dynamic>> _artistSongLinks = [];
   List<SongNodeInfo> _songs = [];
+  List<LinkInfo> _links = [];
 
   MusicMapProvider() {
     update();
@@ -60,7 +61,10 @@ class MusicMapProvider with ChangeNotifier {
     newEdges.addAll(_artistSongLinks.map((row) =>
         EdgeInfo('artist:${row['artistId']}', 'song:${row['songId']}')));
 
-    newEdges.addAll((await db.query('links')).map((row) => EdgeInfo(row['a'], row['b'])));
+    _links = (await db.query('links'))
+        .map((row) => LinkInfo(row['a'], row['b'], row['notes']))
+        .toList();
+    newEdges.addAll(_links);
 
     _edges = newEdges;
   }
@@ -92,4 +96,8 @@ class MusicMapProvider with ChangeNotifier {
   }
 
   NodeInfo getNodeInfo(String id) => _nodes.firstWhere((node) => node.id == id);
+
+  List<LinkInfo> getLinksOfNode(String nodeId) => _links
+      .where((link) => link.nodeA == nodeId || link.nodeB == nodeId)
+      .toList();
 }

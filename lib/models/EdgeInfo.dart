@@ -1,6 +1,13 @@
 class EdgeInfo {
-  final String fromNodeId;
-  final String toNodeId;
+  final String nodeA;
+  final String nodeB;
 
-  EdgeInfo(this.fromNodeId, this.toNodeId);
+  EdgeInfo(this.nodeA, this.nodeB);
+}
+
+class LinkInfo extends EdgeInfo {
+  final String notes;
+
+  LinkInfo(String nodeA, String nodeB, this.notes)
+      : super(nodeA, nodeB);
 }

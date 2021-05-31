@@ -1,7 +1,7 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/NodeInfo.dart';
+import '../widgets/NodeDetailsLinkSection.dart';
 import '../providers/MusicMapProvider.dart';
 import '../providers/SelectNodesProvider.dart';
 
@@ -15,11 +15,6 @@ class ArtistDetailsScreen extends StatelessWidget {
         Provider.of<MusicMapProvider>(context, listen: false);
     final List<SongNodeInfo> songs =
         provider.getSongsOfArtist(artistNodeInfo.artist);
-
-    // TEMP
-    int random = Random().nextInt(provider.nodes.length - 3);
-    final List<NodeInfo> links =
-        provider.nodes.getRange(random, random + 3).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -106,18 +101,7 @@ class ArtistDetailsScreen extends StatelessWidget {
                   color: Theme.of(context).textTheme.bodyText1.color,
                 ),
               ),
-              ...links.map((link) => ListTile(
-                    onTap: () {},
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 5),
-                    leading: Image.network(
-                      link.imageUrl,
-                      width: 60,
-                      height: 60,
-                      fit: BoxFit.cover,
-                    ),
-                    title: Text(link.title),
-                    subtitle: Text('xxx xxx xxx'),
-                  )),
+              NodeDetailsLinkSection(artistNodeInfo.id),
             ],
           ),
         ),

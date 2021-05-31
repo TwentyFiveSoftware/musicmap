@@ -41,8 +41,8 @@ class _MusicMapState extends State<MusicMap> {
     List<Edge> edgeWidgets = provider.edges
         .map((edge) => Edge(
               currentlyMovedNodeInfo,
-              nodeMap[edge.fromNodeId],
-              nodeMap[edge.toNodeId],
+              nodeMap[edge.nodeA],
+              nodeMap[edge.nodeB],
             ))
         .toList();
 
