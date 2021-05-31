@@ -5,6 +5,7 @@ import '../widgets/ArtistCard.dart';
 import '../widgets/SongCard.dart';
 import '../database/updateNode.dart';
 import '../providers/MusicMapProvider.dart';
+import '../providers/SelectNodesProvider.dart';
 
 class Node extends StatefulWidget {
   final NodeInfo nodeInfo;
@@ -21,15 +22,27 @@ class _NodeState extends State<Node> {
 
   @override
   Widget build(BuildContext context) {
+    SelectNodesProvider selectNodesProvider =
+        Provider.of<SelectNodesProvider>(context, listen: true);
+
+    bool selected = selectNodesProvider.selectedNodes.contains(widget.nodeInfo);
+
     return Positioned(
       left: widget.nodeInfo.x + moveDelta.dx,
       top: widget.nodeInfo.y + moveDelta.dy,
       child: GestureDetector(
-        onTap: () => Navigator.of(context).pushNamed(
-            widget.nodeInfo.type == NodeType.ARTIST
-                ? '/artist_details'
-                : '/song_details',
-            arguments: widget.nodeInfo),
+        onTap: () {
+          if (selectNodesProvider.selecting) {
+            selectNodesProvider.nodeToggleSelected(widget.nodeInfo);
+            return;
+          }
+
+          Navigator.of(context).pushNamed(
+              widget.nodeInfo.type == NodeType.ARTIST
+                  ? '/artist_details'
+                  : '/song_details',
+              arguments: widget.nodeInfo);
+        },
         onLongPressStart: (_) => moveDelta = Offset.zero,
         onLongPressMoveUpdate: (details) {
           setState(() {
@@ -51,8 +64,8 @@ class _NodeState extends State<Node> {
           moveDelta = Offset.zero;
         },
         child: widget.nodeInfo is ArtistNodeInfo
-            ? ArtistCard(widget.nodeInfo)
-            : SongCard(widget.nodeInfo),
+            ? ArtistCard(widget.nodeInfo, selected)
+            : SongCard(widget.nodeInfo, selected),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/NodeInfo.dart';
 import '../providers/MusicMapProvider.dart';
+import '../providers/SelectNodesProvider.dart';
 
 class ArtistDetailsScreen extends StatelessWidget {
   @override
@@ -35,7 +36,11 @@ class ArtistDetailsScreen extends StatelessWidget {
           ),
           IconButton(
             icon: Icon(Icons.link),
-            onPressed: () {},
+            onPressed: () {
+              Provider.of<SelectNodesProvider>(context, listen: false)
+                  .startSelecting(artistNodeInfo);
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            },
           ),
         ],
       ),

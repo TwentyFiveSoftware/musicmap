@@ -7,6 +7,7 @@ import './screens/SongDetailsScreen.dart';
 import './screens/HomeScreen.dart';
 import './screens/AddScreen.dart';
 import './providers/MusicMapProvider.dart';
+import './providers/SelectNodesProvider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +17,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => MusicMapProvider()),
+        ChangeNotifierProvider(create: (_) => SelectNodesProvider()),
       ],
       child: MyApp(),
     ),

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../models/NodeInfo.dart';
 import '../models/DatabaseArtist.dart';
 import '../providers/MusicMapProvider.dart';
+import '../providers/SelectNodesProvider.dart';
 
 class SongDetailsScreen extends StatelessWidget {
   @override
@@ -40,7 +41,11 @@ class SongDetailsScreen extends StatelessWidget {
           ),
           IconButton(
             icon: Icon(Icons.link),
-            onPressed: () {},
+            onPressed: () {
+              Provider.of<SelectNodesProvider>(context, listen: false)
+                  .startSelecting(songNodeInfo);
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            },
           ),
         ],
       ),
@@ -95,8 +100,9 @@ class SongDetailsScreen extends StatelessWidget {
                 ),
               ),
               ...artists.map((artist) => ListTile(
-                    onTap: () => Navigator.of(context)
-                        .pushNamed('/artist_details', arguments: provider.getNodeInfo('artist:${artist.id}')),
+                    onTap: () => Navigator.of(context).pushNamed(
+                        '/artist_details',
+                        arguments: provider.getNodeInfo('artist:${artist.id}')),
                     contentPadding:
                         const EdgeInsets.symmetric(horizontal: 5, vertical: 7),
                     leading: Image.network(

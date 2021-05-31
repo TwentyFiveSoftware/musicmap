@@ -3,12 +3,10 @@ import 'package:provider/provider.dart';
 import '../widgets/MusicMap.dart';
 import '../database/getDatabase.dart';
 import '../providers/MusicMapProvider.dart';
+import '../providers/SelectNodesProvider.dart';
 
 class HomeScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+  Widget normalAppBar(BuildContext context) => AppBar(
         title: Text('MusicMap'),
         backgroundColor: Theme.of(context).primaryColorDark,
         actions: [
@@ -17,7 +15,8 @@ class HomeScreen extends StatelessWidget {
             onPressed: () async {
               await dropDatabase();
               await getDatabase();
-              await Provider.of<MusicMapProvider>(context, listen: false).update();
+              await Provider.of<MusicMapProvider>(context, listen: false)
+                  .update();
             },
           ),
           IconButton(
@@ -29,8 +28,41 @@ class HomeScreen extends StatelessWidget {
             onPressed: () => Navigator.pushNamed(context, '/add'),
           ),
         ],
+      );
+
+  Widget selectNodesAppBar(
+          BuildContext context, SelectNodesProvider provider) =>
+      AppBar(
+        title: Text('${provider.selectedNodes.length} selected'),
+        backgroundColor: Theme.of(context).primaryColorDark,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => provider.stopSelecting(),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.check),
+            onPressed: () {},
+          ),
+        ],
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    SelectNodesProvider provider =
+        Provider.of<SelectNodesProvider>(context, listen: true);
+
+    return WillPopScope(
+      onWillPop: () async {
+        if (provider.selecting) provider.stopSelecting();
+        return false;
+      },
+      child: Scaffold(
+        appBar: provider.selecting
+            ? selectNodesAppBar(context, provider)
+            : normalAppBar(context),
+        body: MusicMap(),
       ),
-      body: MusicMap(),
     );
   }
 }

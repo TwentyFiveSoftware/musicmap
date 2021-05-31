@@ -3,16 +3,20 @@ import '../models/NodeInfo.dart';
 
 class SongCard extends StatelessWidget {
   final SongNodeInfo songNodeInfo;
+  final bool selected;
 
-  SongCard(this.songNodeInfo);
+  SongCard(this.songNodeInfo, this.selected);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       key: songNodeInfo.key,
       child: Container(
-        padding: const EdgeInsets.all(10.0),
-        color: Theme.of(context).primaryColorDark,
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColorDark,
+          border: this.selected ? Border.all(color: Theme.of(context).accentColor) : null,
+        ),
         child: Row(
           children: [
             Image.network(
@@ -22,7 +26,7 @@ class SongCard extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 20.0, right: 10.0),
+              padding: const EdgeInsets.only(left: 20, right: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -30,10 +34,13 @@ class SongCard extends StatelessWidget {
                     songNodeInfo.title,
                     style: TextStyle(fontSize: 17.5),
                   ),
-                  SizedBox(height: 2.0),
+                  SizedBox(height: 2),
                   Text(
                     songNodeInfo.subtitle,
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 14.0),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).textTheme.bodyText1.color,
+                    ),
                   ),
                 ],
               ),
