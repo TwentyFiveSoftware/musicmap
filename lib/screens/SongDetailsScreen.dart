@@ -76,7 +76,8 @@ class SongDetailsScreen extends StatelessWidget {
                             songNodeInfo.subtitle,
                             style: TextStyle(
                               fontSize: 15,
-                              color: Theme.of(context).textTheme.bodyText1.color,
+                              color:
+                                  Theme.of(context).textTheme.bodyText1.color,
                             ),
                           ),
                         ],
@@ -94,8 +95,10 @@ class SongDetailsScreen extends StatelessWidget {
                 ),
               ),
               ...artists.map((artist) => ListTile(
-                    onTap: () {},
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 7),
+                    onTap: () => Navigator.of(context)
+                        .pushNamed('/artist_details', arguments: provider.getNodeInfo('artist:${artist.id}')),
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 7),
                     leading: Image.network(
                       artist.imageUrl,
                       width: 60,
@@ -113,17 +116,17 @@ class SongDetailsScreen extends StatelessWidget {
                 ),
               ),
               ...links.map((link) => ListTile(
-                onTap: () {},
-                contentPadding: const EdgeInsets.symmetric(horizontal: 5),
-                leading: Image.network(
-                  link.imageUrl,
-                  width: 60,
-                  height: 60,
-                  fit: BoxFit.cover,
-                ),
-                title: Text(link.title),
-                subtitle: Text('xxx xxx xxx'),
-              )),
+                    onTap: () {},
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 5),
+                    leading: Image.network(
+                      link.imageUrl,
+                      width: 60,
+                      height: 60,
+                      fit: BoxFit.cover,
+                    ),
+                    title: Text(link.title),
+                    subtitle: Text('xxx xxx xxx'),
+                  )),
             ],
           ),
         ),

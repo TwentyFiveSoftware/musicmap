@@ -81,7 +81,8 @@ class ArtistDetailsScreen extends StatelessWidget {
                 ),
               ),
               ...songs.map((song) => ListTile(
-                    onTap: () {},
+                    onTap: () => Navigator.of(context)
+                        .pushNamed('/song_details', arguments: song),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 5),
                     leading: Image.network(
                       song.imageUrl,

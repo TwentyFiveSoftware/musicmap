@@ -88,4 +88,6 @@ class MusicMapProvider with ChangeNotifier {
         .where((songInfo) => songIds.contains(songInfo.song.id))
         .toList();
   }
+
+  NodeInfo getNodeInfo(String id) => _nodes.firstWhere((node) => node.id == id);
 }
