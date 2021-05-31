@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/SelectNodesProvider.dart';
+import '../providers/MusicMapProvider.dart';
+import '../database/createLink.dart';
 
-class CreateLinkScreen extends StatelessWidget {
+class CreateLinkScreen extends StatefulWidget {
+  @override
+  _CreateLinkScreenState createState() => _CreateLinkScreenState();
+}
+
+class _CreateLinkScreenState extends State<CreateLinkScreen> {
+  TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     SelectNodesProvider provider =
@@ -15,7 +30,12 @@ class CreateLinkScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.check),
-            onPressed: () {},
+            onPressed: () async {
+              await createLink(provider.startNode, provider.selectedNodes, _controller.text);
+              provider.stopSelecting();
+              await Provider.of<MusicMapProvider>(context, listen: false).update();
+              Navigator.of(context).pop();
+            },
           ),
         ],
       ),
@@ -62,6 +82,7 @@ class CreateLinkScreen extends StatelessWidget {
                   )),
               Divider(height: 40),
               TextField(
+                controller: _controller,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 decoration: InputDecoration(

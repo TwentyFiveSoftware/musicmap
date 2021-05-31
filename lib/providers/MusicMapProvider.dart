@@ -60,6 +60,8 @@ class MusicMapProvider with ChangeNotifier {
     newEdges.addAll(_artistSongLinks.map((row) =>
         EdgeInfo('artist:${row['artistId']}', 'song:${row['songId']}')));
 
+    newEdges.addAll((await db.query('links')).map((row) => EdgeInfo(row['a'], row['b'])));
+
     _edges = newEdges;
   }
 
