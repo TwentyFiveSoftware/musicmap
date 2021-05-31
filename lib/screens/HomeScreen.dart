@@ -42,7 +42,7 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.check),
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).pushNamed('/create_link'),
           ),
         ],
       );

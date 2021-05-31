@@ -6,6 +6,7 @@ import './screens/ArtistDetailsScreen.dart';
 import './screens/SongDetailsScreen.dart';
 import './screens/HomeScreen.dart';
 import './screens/AddScreen.dart';
+import './screens/CreateLinkScreen.dart';
 import './providers/MusicMapProvider.dart';
 import './providers/SelectNodesProvider.dart';
 
@@ -40,10 +41,12 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Color(0xFFFFFFFF),
         textTheme: TextTheme(
           bodyText2: TextStyle(color: Colors.black),
-          bodyText1: TextStyle(color: Colors.black45, fontWeight: FontWeight.normal),
+          bodyText1:
+              TextStyle(color: Colors.black45, fontWeight: FontWeight.normal),
         ),
         hintColor: Colors.black38,
-        textSelectionTheme: TextSelectionThemeData(cursorColor: Color(0xFFA0CE81)),
+        textSelectionTheme:
+            TextSelectionThemeData(cursorColor: Color(0xFFA0CE81)),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
@@ -54,10 +57,12 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Color(0xFF282C34),
         textTheme: TextTheme(
           bodyText2: TextStyle(color: Colors.white),
-          bodyText1: TextStyle(color: Colors.white60, fontWeight: FontWeight.normal),
+          bodyText1:
+              TextStyle(color: Colors.white60, fontWeight: FontWeight.normal),
         ),
         hintColor: Colors.white38,
-        textSelectionTheme: TextSelectionThemeData(cursorColor: Color(0xFFA0CE81)),
+        textSelectionTheme:
+            TextSelectionThemeData(cursorColor: Color(0xFFA0CE81)),
       ),
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
@@ -65,8 +70,9 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (_) => HomeScreen(),
         '/add': (_) => AddScreen(),
-        '/song_details': (_) =>  SongDetailsScreen(),
-        '/artist_details': (_) =>  ArtistDetailsScreen(),
+        '/song_details': (_) => SongDetailsScreen(),
+        '/artist_details': (_) => ArtistDetailsScreen(),
+        '/create_link': (_) => CreateLinkScreen(),
       },
     );
   }
