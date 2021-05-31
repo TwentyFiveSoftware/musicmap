@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_config/flutter_config.dart';
-import 'package:musicmap/screens/SongDetailsScreen.dart';
 import 'package:provider/provider.dart';
+import './screens/ArtistDetailsScreen.dart';
+import './screens/SongDetailsScreen.dart';
 import './screens/HomeScreen.dart';
 import './screens/AddScreen.dart';
 import './providers/MusicMapProvider.dart';
@@ -63,6 +64,7 @@ class MyApp extends StatelessWidget {
         '/': (_) => HomeScreen(),
         '/add': (_) => AddScreen(),
         '/song_details': (_) =>  SongDetailsScreen(),
+        '/artist_details': (_) =>  ArtistDetailsScreen(),
       },
     );
   }

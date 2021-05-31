@@ -12,6 +12,7 @@ class MusicMapProvider with ChangeNotifier {
 
   List<DatabaseArtist> _artists = [];
   List<Map<String, dynamic>> _artistSongLinks = [];
+  List<SongNodeInfo> _songs = [];
 
   MusicMapProvider() {
     update();
@@ -40,9 +41,12 @@ class MusicMapProvider with ChangeNotifier {
         .map((row) => DatabaseAlbum.fromDatabase(row))
         .toList();
 
-    newNodes.addAll(songs.map((song) =>
-        SongNodeInfo(
-            song, albums.firstWhere((album) => album.id == song.albumId))));
+    _songs = songs
+        .map((song) => SongNodeInfo(
+            song, albums.firstWhere((album) => album.id == song.albumId)))
+        .toList();
+
+    newNodes.addAll(_songs);
 
     _nodes = newNodes;
   }
@@ -67,8 +71,21 @@ class MusicMapProvider with ChangeNotifier {
       Map.fromIterable(_nodes, key: (n) => n.id, value: (n) => n);
 
   List<DatabaseArtist> getArtistsOfSong(DatabaseSong song) {
-    List<dynamic> artistIds = _artistSongLinks.where((link) => link['songId'] == song.id).map((link) => link['artistId']).toList();
+    List<dynamic> artistIds = _artistSongLinks
+        .where((link) => link['songId'] == song.id)
+        .map((link) => link['artistId'])
+        .toList();
     return _artists.where((artist) => artistIds.contains(artist.id)).toList();
   }
 
+  List<SongNodeInfo> getSongsOfArtist(DatabaseArtist artist) {
+    List<dynamic> songIds = _artistSongLinks
+        .where((link) => link['artistId'] == artist.id)
+        .map((link) => link['songId'])
+        .toList();
+
+    return _songs
+        .where((songInfo) => songIds.contains(songInfo.song.id))
+        .toList();
+  }
 }
