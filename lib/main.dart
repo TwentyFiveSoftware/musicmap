@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:musicmap/screens/SongDetailsScreen.dart';
 import 'package:provider/provider.dart';
 import './screens/HomeScreen.dart';
 import './screens/AddScreen.dart';
@@ -34,12 +35,12 @@ class MyApp extends StatelessWidget {
         accentColor: Color(0xFFA0CE81),
         backgroundColor: Color(0xFFFFFFFF),
         scaffoldBackgroundColor: Color(0xFFFFFFFF),
-        cursorColor: Color(0xFFA0CE81),
         textTheme: TextTheme(
           bodyText2: TextStyle(color: Colors.black),
           bodyText1: TextStyle(color: Colors.black45, fontWeight: FontWeight.normal),
         ),
         hintColor: Colors.black38,
+        textSelectionTheme: TextSelectionThemeData(cursorColor: Color(0xFFA0CE81)),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
@@ -48,12 +49,12 @@ class MyApp extends StatelessWidget {
         accentColor: Color(0xFFA0CE81),
         backgroundColor: Color(0xFF282C34),
         scaffoldBackgroundColor: Color(0xFF282C34),
-        cursorColor: Color(0xFFA0CE81),
         textTheme: TextTheme(
           bodyText2: TextStyle(color: Colors.white),
           bodyText1: TextStyle(color: Colors.white60, fontWeight: FontWeight.normal),
         ),
         hintColor: Colors.white38,
+        textSelectionTheme: TextSelectionThemeData(cursorColor: Color(0xFFA0CE81)),
       ),
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
@@ -61,6 +62,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (_) => HomeScreen(),
         '/add': (_) => AddScreen(),
+        '/song_details': (_) =>  SongDetailsScreen(),
       },
     );
   }

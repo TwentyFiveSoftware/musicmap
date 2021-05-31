@@ -25,6 +25,11 @@ class _NodeState extends State<Node> {
       left: widget.nodeInfo.x + moveDelta.dx,
       top: widget.nodeInfo.y + moveDelta.dy,
       child: GestureDetector(
+        onTap: () => Navigator.of(context).pushNamed(
+            widget.nodeInfo.type == NodeType.ARTIST
+                ? '/artist_details'
+                : '/song_details',
+            arguments: widget.nodeInfo),
         onLongPressStart: (_) => moveDelta = Offset.zero,
         onLongPressMoveUpdate: (details) {
           setState(() {
