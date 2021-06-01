@@ -15,6 +15,8 @@ class MusicMapProvider with ChangeNotifier {
   List<SongNodeInfo> _songs = [];
   List<LinkInfo> _links = [];
 
+  Offset transitionToPositionOnNextMapView;
+
   MusicMapProvider() {
     update();
   }
@@ -100,4 +102,8 @@ class MusicMapProvider with ChangeNotifier {
   List<LinkInfo> getLinksOfNode(String nodeId) => _links
       .where((link) => link.nodeA == nodeId || link.nodeB == nodeId)
       .toList();
+
+  void setTransitionToNode(NodeInfo node) {
+    transitionToPositionOnNextMapView = Offset(node.x * 1.0, node.y * 1.0);
+  }
 }

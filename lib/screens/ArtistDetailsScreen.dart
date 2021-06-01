@@ -27,7 +27,10 @@ class ArtistDetailsScreen extends StatelessWidget {
           ),
           IconButton(
             icon: Icon(Icons.location_pin),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).popUntil((route) => route.isFirst);
+              provider.setTransitionToNode(artistNodeInfo);
+            },
           ),
           IconButton(
             icon: Icon(Icons.link),
