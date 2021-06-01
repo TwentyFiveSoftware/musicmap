@@ -108,14 +108,6 @@ class SongDetailsScreen extends StatelessWidget {
                     ),
                     title: Text(artist.name),
                   )),
-              Divider(height: 40),
-              Text(
-                'LINKS',
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Theme.of(context).textTheme.bodyText1.color,
-                ),
-              ),
               NodeDetailsLinkSection(songNodeInfo.id),
             ],
           ),
