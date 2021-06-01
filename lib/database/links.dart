@@ -26,3 +26,11 @@ Future<void> deleteLink(LinkInfo link) async {
       where: '(a = ? AND b = ?) OR (a = ? AND b = ?)',
       whereArgs: [link.nodeA, link.nodeB, link.nodeB, link.nodeA]);
 }
+
+Future<void> updateLinkNotes(LinkInfo link) async {
+  final db = await getDatabase();
+
+  await db.update('links', link.toMap(),
+      where: '(a = ? AND b = ?) OR (a = ? AND b = ?)',
+      whereArgs: [link.nodeA, link.nodeB, link.nodeB, link.nodeA]);
+}

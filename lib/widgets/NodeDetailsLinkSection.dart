@@ -12,7 +12,7 @@ class NodeDetailsLinkSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MusicMapProvider provider =
-        Provider.of<MusicMapProvider>(context, listen: false);
+        Provider.of<MusicMapProvider>(context, listen: true);
     final List<LinkInfo> links = provider.getLinksOfNode(nodeId);
     final nodeMap = provider.nodeMap;
 

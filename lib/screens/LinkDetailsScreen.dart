@@ -60,7 +60,13 @@ class _LinkDetailsScreenState extends State<LinkDetailsScreen> {
           ),
           IconButton(
             icon: Icon(Icons.check),
-            onPressed: () async {},
+            onPressed: () async {
+              link.notes = _controller.text;
+              await updateLinkNotes(link);
+              await Provider.of<MusicMapProvider>(context, listen: false)
+                  .update();
+              Navigator.of(context).pop();
+            },
           ),
         ],
       ),
