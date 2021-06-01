@@ -19,5 +19,6 @@ class SpotifySong {
             .map((a) => SpotifyArtist.fromJson(a))
             .toList();
 
-  DatabaseSong toDatabaseSong() => DatabaseSong(id, name, album.id, 0, 0);
+  DatabaseSong toDatabaseSong(int x, int y) =>
+      DatabaseSong(id, name, album.id, x, y);
 }

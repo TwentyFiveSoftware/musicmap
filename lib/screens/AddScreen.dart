@@ -4,6 +4,7 @@ import '../database/insertSong.dart';
 import '../providers/MusicMapProvider.dart';
 import '../models/SpotifySong.dart';
 import '../requests/spotifyApiRequest.dart';
+import '../config/config.dart' as config;
 
 class AddScreen extends StatefulWidget {
   @override
@@ -48,9 +49,14 @@ class _AddScreenState extends State<AddScreen> {
   }
 
   void selectSong(BuildContext context, SpotifySong song) async {
-    await insertSong(song);
+    Offset pos = Offset(config.MUSIC_MAP_WIDTH / 2, config.MUSIC_MAP_HEIGHT / 2);
 
-    await Provider.of<MusicMapProvider>(context, listen: false).update();
+    await insertSong(song, pos.dx.toInt(), pos.dy.toInt());
+
+    final provider = Provider.of<MusicMapProvider>(context, listen: false);
+
+    provider.transitionToPositionOnNextMapView = pos;
+    await provider.update();
 
     Navigator.of(context).pop();
   }

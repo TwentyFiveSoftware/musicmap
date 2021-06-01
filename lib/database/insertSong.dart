@@ -4,11 +4,11 @@ import '../models/SpotifyArtist.dart';
 import '../requests/spotifyApiRequest.dart';
 import './getDatabase.dart';
 
-Future<void> insertSong(SpotifySong song) async {
+Future<void> insertSong(SpotifySong song, int x, int y) async {
   final db = await getDatabase();
 
   // NODES
-  await db.insert('songs', song.toDatabaseSong().toMap(),
+  await db.insert('songs', song.toDatabaseSong(x, y).toMap(),
       conflictAlgorithm: ConflictAlgorithm.ignore);
 
   await db.insert('albums', song.album.toDatabaseAlbum().toMap(),
@@ -20,8 +20,8 @@ Future<void> insertSong(SpotifySong song) async {
       'id': artistJson['id'],
       'name': artistJson['name'],
       'imageUrl': artistJson['images'][0]['url'],
-      'position_x': 0,
-      'position_y': 0,
+      'position_x': x,
+      'position_y': y,
     };
 
     await db.insert('artists', artistMap,
