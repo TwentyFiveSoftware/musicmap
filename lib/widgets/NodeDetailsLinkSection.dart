@@ -29,7 +29,8 @@ class NodeDetailsLinkSection extends StatelessWidget {
         ),
         trailing: IconButton(
           icon: Icon(Icons.edit),
-          onPressed: () {},
+          onPressed: () =>
+              Navigator.of(context).pushNamed('/link_details', arguments: link),
         ),
         leading: Image.network(
           node.imageUrl,

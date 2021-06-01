@@ -7,6 +7,7 @@ import './screens/SongDetailsScreen.dart';
 import './screens/HomeScreen.dart';
 import './screens/AddScreen.dart';
 import './screens/CreateLinkScreen.dart';
+import './screens/LinkDetailsScreen.dart';
 import './providers/MusicMapProvider.dart';
 import './providers/SelectNodesProvider.dart';
 
@@ -72,6 +73,7 @@ class MyApp extends StatelessWidget {
         '/add': (_) => AddScreen(),
         '/song_details': (_) => SongDetailsScreen(),
         '/artist_details': (_) => ArtistDetailsScreen(),
+        '/link_details': (_) => LinkDetailsScreen(),
         '/create_link': (_) => CreateLinkScreen(),
       },
     );
