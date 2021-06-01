@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/SelectNodesProvider.dart';
 import '../providers/MusicMapProvider.dart';
-import '../database/createLink.dart';
+import '../database/links.dart';
 import '../widgets/LinkDetails.dart';
 
 class CreateLinkScreen extends StatefulWidget {

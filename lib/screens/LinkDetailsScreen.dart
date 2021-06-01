@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:musicmap/models/ConfirmDialogInfo.dart';
+import 'package:musicmap/widgets/ConfirmDialog.dart';
 import 'package:provider/provider.dart';
 import '../models/EdgeInfo.dart';
 import '../widgets/LinkDetails.dart';
 import '../providers/MusicMapProvider.dart';
+import '../database/links.dart';
 
 class LinkDetailsScreen extends StatefulWidget {
   @override
@@ -39,7 +42,21 @@ class _LinkDetailsScreenState extends State<LinkDetailsScreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.delete),
-            onPressed: () async {},
+            onPressed: () => showDialog(
+              context: context,
+              builder: (_) => ConfirmDialog(ConfirmDialogInfo(
+                title: 'Are you sure?',
+                content: 'Do you really want to delete this link?',
+                cancelButton: 'Cancel',
+                confirmButton: 'Delete',
+                successCallback: () async {
+                  await deleteLink(link);
+                  await Provider.of<MusicMapProvider>(context, listen: false)
+                      .update();
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                },
+              )),
+            ),
           ),
           IconButton(
             icon: Icon(Icons.check),

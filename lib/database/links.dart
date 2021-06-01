@@ -1,5 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import '../models/NodeInfo.dart';
+import '../models/EdgeInfo.dart';
 import './getDatabase.dart';
 
 Future<void> createLink(
@@ -16,4 +17,12 @@ Future<void> createLink(
     await db.insert('links', {'a': fromNode.id, 'b': toNode.id, 'notes': notes},
         conflictAlgorithm: ConflictAlgorithm.ignore);
   }
+}
+
+Future<void> deleteLink(LinkInfo link) async {
+  final db = await getDatabase();
+
+  await db.delete('links',
+      where: '(a = ? AND b = ?) OR (a = ? AND b = ?)',
+      whereArgs: [link.nodeA, link.nodeB, link.nodeB, link.nodeA]);
 }
