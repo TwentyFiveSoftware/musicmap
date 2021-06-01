@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import './DatabaseSong.dart';
 import './DatabaseAlbum.dart';
 import './DatabaseArtist.dart';
@@ -12,7 +11,6 @@ class NodeInfo {
   final String subtitle;
   final String imageUrl;
   final NodeType type;
-  final GlobalKey key = GlobalKey();
 
   NodeInfo(this.id, this.x, this.y, this.title, this.subtitle, this.imageUrl,
       this.type);

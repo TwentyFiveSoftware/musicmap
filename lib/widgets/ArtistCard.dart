@@ -10,7 +10,6 @@ class ArtistCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      key: artistNodeInfo.key,
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(

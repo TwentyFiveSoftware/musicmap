@@ -6,6 +6,7 @@ import '../widgets/SongCard.dart';
 import '../database/updateNode.dart';
 import '../providers/MusicMapProvider.dart';
 import '../providers/SelectNodesProvider.dart';
+import '../config/config.dart' as config;
 
 class Node extends StatefulWidget {
   final NodeInfo nodeInfo;
@@ -45,11 +46,24 @@ class _NodeState extends State<Node> {
         },
         onLongPressStart: (_) => moveDelta = Offset.zero,
         onLongPressMoveUpdate: (details) {
+          double x = details.localOffsetFromOrigin.dx;
+          double y = details.localOffsetFromOrigin.dy;
+
+          if (widget.nodeInfo.x + x < 0)
+            x = -1.0 * widget.nodeInfo.x;
+          else if (widget.nodeInfo.x + x + 150 > config.MUSIC_MAP_WIDTH)
+            x = config.MUSIC_MAP_WIDTH - 150 - widget.nodeInfo.x;
+
+          if (widget.nodeInfo.y + y < 0)
+            y = -1.0 * widget.nodeInfo.y;
+          else if (widget.nodeInfo.y + y + 150 > config.MUSIC_MAP_HEIGHT)
+            y = config.MUSIC_MAP_HEIGHT - 150 - widget.nodeInfo.y;
+
           setState(() {
-            moveDelta = details.localOffsetFromOrigin;
+            moveDelta = Offset(x, y);
           });
-          widget.updateNodePosition(
-              widget.nodeInfo, details.localOffsetFromOrigin);
+
+          widget.updateNodePosition(widget.nodeInfo, Offset(x, y));
         },
         onLongPressEnd: (_) async {
           widget.nodeInfo.updatePosition(
