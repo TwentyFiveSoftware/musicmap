@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:musicmap/models/EdgeInfo.dart';
 import 'package:provider/provider.dart';
 import './Node.dart';
 import './Edge.dart';
@@ -43,6 +44,7 @@ class _MusicMapState extends State<MusicMap> {
               currentlyMovedNodeInfo,
               nodeMap[edge.nodeA],
               nodeMap[edge.nodeB],
+              edge is LinkInfo,
             ))
         .toList();
 
