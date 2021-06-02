@@ -1,24 +1,28 @@
-import 'package:musicmap/models/DatabaseSong.dart';
-
 import './SpotifyArtist.dart';
-import './SpotifyAlbum.dart';
+import './DatabaseSong.dart';
 
 class SpotifySong {
   final String id;
   final String name;
   final List<SpotifyArtist> artists;
-  final SpotifyAlbum album;
+  final String albumName;
+  final String albumImageUrl;
 
-  SpotifySong(this.id, this.name, this.artists, this.album);
+  SpotifySong(
+      this.id, this.name, this.artists, this.albumName, this.albumImageUrl);
 
-  SpotifySong.fromJson(Map<String, dynamic> json)
+  SpotifySong.fromJson(Map<String, dynamic> json,
+      {bool smallAlbumImage = false})
       : id = json['id'],
         name = json['name'],
-        album = SpotifyAlbum.fromJson(json['album']),
+        albumName = json['album']['name'],
+        albumImageUrl = json['album']['images'][smallAlbumImage
+            ? ((json['album']['images'] as List<dynamic>).length - 1)
+            : 0]['url'],
         artists = (json['artists'] as List<dynamic>)
             .map((a) => SpotifyArtist.fromJson(a))
             .toList();
 
-  DatabaseSong toDatabaseSong(int x, int y) =>
-      DatabaseSong(id, name, album.id, x, y);
+  DatabaseSong toDatabaseSong(int x, int y) => DatabaseSong(id, name, albumName,
+      albumImageUrl, artists.map((artist) => artist.id).join(';'), x, y);
 }

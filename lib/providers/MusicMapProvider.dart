@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../models/EdgeInfo.dart';
 import '../models/NodeInfo.dart';
 import '../models/DatabaseSong.dart';
-import '../models/DatabaseAlbum.dart';
 import '../models/DatabaseArtist.dart';
 import '../database/getDatabase.dart';
 
@@ -37,16 +36,9 @@ class MusicMapProvider with ChangeNotifier {
         .toList();
     newNodes.addAll(_artists.map((artist) => ArtistNodeInfo(artist)));
 
-    List<DatabaseSong> songs = (await db.query('songs'))
+    _songs = (await db.query('songs'))
         .map((row) => DatabaseSong.fromDatabase(row))
-        .toList();
-    List<DatabaseAlbum> albums = (await db.query('albums'))
-        .map((row) => DatabaseAlbum.fromDatabase(row))
-        .toList();
-
-    _songs = songs
-        .map((song) => SongNodeInfo(
-            song, albums.firstWhere((album) => album.id == song.albumId)))
+        .map((song) => SongNodeInfo(song))
         .toList();
 
     newNodes.addAll(_songs);

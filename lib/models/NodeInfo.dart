@@ -1,5 +1,4 @@
 import './DatabaseSong.dart';
-import './DatabaseAlbum.dart';
 import './DatabaseArtist.dart';
 
 enum NodeType { SONG, ARTIST }
@@ -21,9 +20,9 @@ class NodeInfo {
 class SongNodeInfo extends NodeInfo {
   DatabaseSong song;
 
-  SongNodeInfo(DatabaseSong song, DatabaseAlbum album)
+  SongNodeInfo(DatabaseSong song)
       : super('song:${song.id}', song.positionX, song.positionY, song.name,
-            album.name, album.imageUrl, NodeType.SONG) {
+            song.albumName, song.albumImageUrl, NodeType.SONG) {
     this.song = song;
   }
 

@@ -2,6 +2,7 @@ import 'package:sqflite/sqflite.dart';
 import '../models/SpotifySong.dart';
 import '../models/SpotifyArtist.dart';
 import '../requests/spotifyApiRequest.dart';
+import '../models/DatabaseSong.dart';
 import './getDatabase.dart';
 
 Future<void> insertSong(SpotifySong song, int x, int y) async {
@@ -9,9 +10,6 @@ Future<void> insertSong(SpotifySong song, int x, int y) async {
 
   // NODES
   await db.insert('songs', song.toDatabaseSong(x, y).toMap(),
-      conflictAlgorithm: ConflictAlgorithm.ignore);
-
-  await db.insert('albums', song.album.toDatabaseAlbum().toMap(),
       conflictAlgorithm: ConflictAlgorithm.ignore);
 
   for (SpotifyArtist artist in song.artists) {
@@ -28,10 +26,14 @@ Future<void> insertSong(SpotifySong song, int x, int y) async {
         conflictAlgorithm: ConflictAlgorithm.ignore);
   }
 
-  // EDGES
-  for (SpotifyArtist artist in song.artists) {
-    await db.insert(
-        'artistSongLinks', {'artistId': artist.id, 'songId': song.id},
-        conflictAlgorithm: ConflictAlgorithm.ignore);
-  }
+  // EDGES (EDGES FROM RE-ADDED ARTISTS TO SONGS AS WELL)
+  final List<DatabaseSong> allSongs = (await db.query('songs'))
+      .map((row) => DatabaseSong.fromDatabase(row))
+      .toList();
+
+  for (DatabaseSong s in allSongs)
+    for (SpotifyArtist a in song.artists)
+      if (s.artistIds.split(';').contains(a.id))
+        await db.insert('artistSongLinks', {'artistId': a.id, 'songId': s.id},
+            conflictAlgorithm: ConflictAlgorithm.ignore);
 }

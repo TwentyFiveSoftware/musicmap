@@ -43,7 +43,7 @@ class _AddScreenState extends State<AddScreen> {
 
     try {
       setState(() {
-        songs = items.map((json) => SpotifySong.fromJson(json)).toList();
+        songs = items.map((json) => SpotifySong.fromJson(json, smallAlbumImage: true)).toList();
       });
     } catch (_) {}
   }
@@ -91,7 +91,7 @@ class _AddScreenState extends State<AddScreen> {
         itemBuilder: (BuildContext context, int index) => InkWell(
           onTap: () => selectSong(context, songs[index]),
           child: ListTile(
-            leading: Image.network(songs[index].album.imageSmallUrl, width: 50),
+            leading: Image.network(songs[index].albumImageUrl, width: 50),
             title: Text(songs[index].name),
             subtitle: Text(songs[index]
                 .artists
