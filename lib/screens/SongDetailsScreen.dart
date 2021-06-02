@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/NodeInfo.dart';
 import '../models/DatabaseArtist.dart';
 import '../providers/MusicMapProvider.dart';
@@ -27,7 +28,7 @@ class SongDetailsScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.play_arrow),
-            onPressed: () {},
+            onPressed: () => launch('https://open.spotify.com/track/${songNodeInfo.song.id}'),
           ),
           IconButton(
             icon: Icon(Icons.delete),
