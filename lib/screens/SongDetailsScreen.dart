@@ -106,14 +106,15 @@ class SongDetailsScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              Divider(height: 40),
-              Text(
-                'ARTIST' + (artists.length > 1 ? 'S' : ''),
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Theme.of(context).textTheme.bodyText1.color,
+              if (artists.length > 0) Divider(height: 40),
+              if (artists.length > 0)
+                Text(
+                  'ARTIST' + (artists.length > 1 ? 'S' : ''),
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Theme.of(context).textTheme.bodyText1.color,
+                  ),
                 ),
-              ),
               ...artists.map((artist) => ListTile(
                     onTap: () => Navigator.of(context).pushNamed(
                         '/artist_details',
