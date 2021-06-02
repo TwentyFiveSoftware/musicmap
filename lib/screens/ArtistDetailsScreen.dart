@@ -4,6 +4,9 @@ import '../models/NodeInfo.dart';
 import '../widgets/NodeDetailsLinkSection.dart';
 import '../providers/MusicMapProvider.dart';
 import '../providers/SelectNodesProvider.dart';
+import '../models/ConfirmDialogInfo.dart';
+import '../widgets/ConfirmDialog.dart';
+import '../database/nodes.dart';
 
 class ArtistDetailsScreen extends StatelessWidget {
   @override
@@ -23,7 +26,21 @@ class ArtistDetailsScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.delete),
-            onPressed: () {},
+            onPressed: () => showDialog(
+              context: context,
+              builder: (_) => ConfirmDialog(ConfirmDialogInfo(
+                title: 'Are you sure?',
+                content: 'Do you really want to delete this artist?',
+                cancelButton: 'Cancel',
+                confirmButton: 'Delete',
+                successCallback: () async {
+                  await deleteNode(artistNodeInfo);
+                  await Provider.of<MusicMapProvider>(context, listen: false)
+                      .update();
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                },
+              )),
+            ),
           ),
           IconButton(
             icon: Icon(Icons.location_pin),

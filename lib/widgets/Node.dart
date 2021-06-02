@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/NodeInfo.dart';
 import '../widgets/ArtistCard.dart';
 import '../widgets/SongCard.dart';
-import '../database/updateNode.dart';
+import '../database/nodes.dart';
 import '../providers/MusicMapProvider.dart';
 import '../providers/SelectNodesProvider.dart';
 import '../config/config.dart' as config;

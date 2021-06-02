@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:musicmap/models/ConfirmDialogInfo.dart';
-import 'package:musicmap/widgets/ConfirmDialog.dart';
 import 'package:provider/provider.dart';
 import '../models/EdgeInfo.dart';
 import '../widgets/LinkDetails.dart';
 import '../providers/MusicMapProvider.dart';
 import '../database/links.dart';
+import '../models/ConfirmDialogInfo.dart';
+import '../widgets/ConfirmDialog.dart';
 
 class LinkDetailsScreen extends StatefulWidget {
   @override
