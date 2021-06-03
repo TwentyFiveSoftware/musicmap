@@ -30,7 +30,7 @@ class _AddScreenState extends State<AddScreen> {
   }
 
   void searchChangeListener() async {
-    if (searchQueryController.text.length == 0) {
+    if (searchQueryController.text.isEmpty) {
       setState(() {
         songs = [];
       });
@@ -44,13 +44,16 @@ class _AddScreenState extends State<AddScreen> {
 
     try {
       setState(() {
-        songs = items.map((json) => SpotifySong.fromJson(json, smallAlbumImage: true)).toList();
+        songs = items
+            .map((json) => SpotifySong.fromJson(json, smallAlbumImage: true))
+            .toList();
       });
     } catch (_) {}
   }
 
   void selectSong(BuildContext context, SpotifySong song) async {
-    Offset pos = Offset(config.MUSIC_MAP_WIDTH / 2, config.MUSIC_MAP_HEIGHT / 2);
+    Offset pos =
+        Offset(config.MUSIC_MAP_WIDTH / 2, config.MUSIC_MAP_HEIGHT / 2);
 
     await insertSong(song, pos.dx.toInt(), pos.dy.toInt());
 
@@ -78,12 +81,14 @@ class _AddScreenState extends State<AddScreen> {
               color: Theme.of(context).textTheme.bodyText2.color, fontSize: 16),
           cursorColor: Theme.of(context).accentColor,
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () => searchQueryController.clear(),
-          ),
-        ],
+        actions: searchQueryController.text.isEmpty
+            ? []
+            : [
+                IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () => searchQueryController.clear(),
+                ),
+              ],
         backgroundColor: Theme.of(context).primaryColorDark,
       ),
       body: ListView.separated(
