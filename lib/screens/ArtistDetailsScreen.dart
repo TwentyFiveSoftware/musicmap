@@ -6,6 +6,7 @@ import '../providers/MusicMapProvider.dart';
 import '../providers/SelectNodesProvider.dart';
 import '../models/ConfirmDialogInfo.dart';
 import '../widgets/ConfirmDialog.dart';
+import '../widgets/SquareNetworkImage.dart';
 import '../database/nodes.dart';
 
 class ArtistDetailsScreen extends StatelessWidget {
@@ -67,12 +68,7 @@ class ArtistDetailsScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Image.network(
-                    artistNodeInfo.imageUrl,
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.cover,
-                  ),
+                  SquareNetworkImage(artistNodeInfo.imageUrl, 80),
                   Flexible(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20.0),
@@ -105,12 +101,7 @@ class ArtistDetailsScreen extends StatelessWidget {
                     onTap: () => Navigator.of(context)
                         .pushNamed('/song_details', arguments: song),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 5),
-                    leading: Image.network(
-                      song.imageUrl,
-                      width: 60,
-                      height: 60,
-                      fit: BoxFit.cover,
-                    ),
+                    leading: SquareNetworkImage(song.imageUrl, 60),
                     title: Text(song.title),
                     subtitle: Text(song.subtitle),
                   )),

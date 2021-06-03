@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/NodeInfo.dart';
+import '../widgets/SquareNetworkImage.dart';
 
 class ArtistCard extends StatelessWidget {
   final ArtistNodeInfo artistNodeInfo;
@@ -19,12 +20,7 @@ class ArtistCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network(
-              artistNodeInfo.imageUrl,
-              width: 100,
-              height: 100,
-              fit: BoxFit.cover,
-            ),
+            SquareNetworkImage(artistNodeInfo.imageUrl, 100),
             Padding(
               padding: const EdgeInsets.only(top: 10),
               child: Text(

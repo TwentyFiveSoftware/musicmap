@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:musicmap/widgets/SquareNetworkImage.dart';
 import '../models/NodeInfo.dart';
 
 class LinkDetails extends StatelessWidget {
@@ -28,12 +29,7 @@ class LinkDetails extends StatelessWidget {
               ),
             ListTile(
               contentPadding: const EdgeInsets.all(5),
-              leading: Image.network(
-                fromNode.imageUrl,
-                width: 60,
-                height: 60,
-                fit: BoxFit.cover,
-              ),
+              leading: SquareNetworkImage(fromNode.imageUrl, 60),
               title: Text(fromNode.title),
             ),
             if (isCreateScreen) Divider(height: 40),
@@ -47,12 +43,7 @@ class LinkDetails extends StatelessWidget {
               ),
             ...toNodes.map((node) => ListTile(
                   contentPadding: const EdgeInsets.all(5),
-                  leading: Image.network(
-                    node.imageUrl,
-                    width: 60,
-                    height: 60,
-                    fit: BoxFit.cover,
-                  ),
+                  leading: SquareNetworkImage(node.imageUrl, 60),
                   title: Text(node.title),
                 )),
             Divider(height: 40),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/NodeInfo.dart';
+import '../widgets/SquareNetworkImage.dart';
 
 class SongCard extends StatelessWidget {
   final SongNodeInfo songNodeInfo;
@@ -14,16 +15,13 @@ class SongCard extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColorDark,
-          border: this.selected ? Border.all(color: Theme.of(context).accentColor) : null,
+          border: this.selected
+              ? Border.all(color: Theme.of(context).accentColor)
+              : null,
         ),
         child: Row(
           children: [
-            Image.network(
-              songNodeInfo.imageUrl,
-              width: 64,
-              height: 64,
-              fit: BoxFit.cover,
-            ),
+            SquareNetworkImage(songNodeInfo.imageUrl, 64),
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 10),
               child: Column(

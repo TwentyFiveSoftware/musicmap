@@ -4,6 +4,7 @@ import '../database/insertSong.dart';
 import '../providers/MusicMapProvider.dart';
 import '../models/SpotifySong.dart';
 import '../requests/spotifyApiRequest.dart';
+import '../widgets/SquareNetworkImage.dart';
 import '../config/config.dart' as config;
 
 class AddScreen extends StatefulWidget {
@@ -69,7 +70,7 @@ class _AddScreenState extends State<AddScreen> {
           controller: searchQueryController,
           autofocus: true,
           decoration: InputDecoration(
-            hintText: 'Search for Songs and Albums',
+            hintText: 'Search for songs',
             border: InputBorder.none,
             hintStyle: TextStyle(color: Theme.of(context).hintColor),
           ),
@@ -91,7 +92,7 @@ class _AddScreenState extends State<AddScreen> {
         itemBuilder: (BuildContext context, int index) => InkWell(
           onTap: () => selectSong(context, songs[index]),
           child: ListTile(
-            leading: Image.network(songs[index].albumImageUrl, width: 50),
+            leading: SquareNetworkImage(songs[index].albumImageUrl, 50),
             title: Text(songs[index].name),
             subtitle: Text(songs[index]
                 .artists

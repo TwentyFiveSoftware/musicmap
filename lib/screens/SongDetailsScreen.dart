@@ -8,6 +8,7 @@ import '../providers/SelectNodesProvider.dart';
 import '../widgets/NodeDetailsLinkSection.dart';
 import '../models/ConfirmDialogInfo.dart';
 import '../widgets/ConfirmDialog.dart';
+import '../widgets/SquareNetworkImage.dart';
 import '../database/nodes.dart';
 
 class SongDetailsScreen extends StatelessWidget {
@@ -28,7 +29,8 @@ class SongDetailsScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.play_arrow),
-            onPressed: () => launch('https://open.spotify.com/track/${songNodeInfo.song.id}'),
+            onPressed: () => launch(
+                'https://open.spotify.com/track/${songNodeInfo.song.id}'),
           ),
           IconButton(
             icon: Icon(Icons.delete),
@@ -73,12 +75,7 @@ class SongDetailsScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Image.network(
-                    songNodeInfo.imageUrl,
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.cover,
-                  ),
+                  SquareNetworkImage(songNodeInfo.imageUrl, 80),
                   Flexible(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20.0),
@@ -122,12 +119,7 @@ class SongDetailsScreen extends StatelessWidget {
                         arguments: provider.getNodeInfo('artist:${artist.id}')),
                     contentPadding:
                         const EdgeInsets.symmetric(horizontal: 5, vertical: 7),
-                    leading: Image.network(
-                      artist.imageUrl,
-                      width: 60,
-                      height: 60,
-                      fit: BoxFit.cover,
-                    ),
+                    leading: SquareNetworkImage(artist.imageUrl, 60),
                     title: Text(artist.name),
                   )),
               NodeDetailsLinkSection(songNodeInfo.id),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/EdgeInfo.dart';
 import '../models/NodeInfo.dart';
+import '../widgets/SquareNetworkImage.dart';
 import '../providers/MusicMapProvider.dart';
 
 class NodeDetailsLinkSection extends StatelessWidget {
@@ -32,12 +33,7 @@ class NodeDetailsLinkSection extends StatelessWidget {
           onPressed: () =>
               Navigator.of(context).pushNamed('/link_details', arguments: link),
         ),
-        leading: Image.network(
-          node.imageUrl,
-          width: 60,
-          height: 60,
-          fit: BoxFit.cover,
-        ),
+        leading: SquareNetworkImage(node.imageUrl, 60),
         title: Text(
           node.title,
           style: TextStyle(height: 1),

@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
           ),
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(context, '/search'),
           ),
           IconButton(
             icon: Icon(Icons.add),
