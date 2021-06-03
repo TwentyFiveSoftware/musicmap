@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/MusicMap.dart';
-import '../database/getDatabase.dart';
-import '../providers/MusicMapProvider.dart';
 import '../providers/SelectNodesProvider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -11,21 +9,16 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).primaryColorDark,
         actions: [
           IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () async {
-              await dropDatabase();
-              await getDatabase();
-              await Provider.of<MusicMapProvider>(context, listen: false)
-                  .update();
-            },
-          ),
-          IconButton(
             icon: Icon(Icons.search),
             onPressed: () => Navigator.pushNamed(context, '/search'),
           ),
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () => Navigator.pushNamed(context, '/add'),
+          ),
+          IconButton(
+            icon: Icon(Icons.more_vert),
+            onPressed: () => Navigator.pushNamed(context, '/settings'),
           ),
         ],
       );
