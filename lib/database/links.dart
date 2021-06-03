@@ -8,11 +8,7 @@ Future<void> createLink(
   final db = await getDatabase();
 
   for (NodeInfo toNode in toNodes) {
-    final rows = await db.query('links',
-        where: '(a = ? AND b = ?) OR (a = ? AND b = ?)',
-        whereArgs: [fromNode.id, toNode.id, toNode.id, fromNode.id]);
-
-    if (rows.length > 0) continue;
+    if (await doesLinkExists(fromNode, toNode)) continue;
 
     await db.insert('links', {'a': fromNode.id, 'b': toNode.id, 'notes': notes},
         conflictAlgorithm: ConflictAlgorithm.ignore);
@@ -33,4 +29,14 @@ Future<void> updateLinkNotes(LinkInfo link) async {
   await db.update('links', link.toMap(),
       where: '(a = ? AND b = ?) OR (a = ? AND b = ?)',
       whereArgs: [link.nodeA, link.nodeB, link.nodeB, link.nodeA]);
+}
+
+Future<bool> doesLinkExists(NodeInfo nodeA, NodeInfo nodeB) async {
+  final db = await getDatabase();
+
+  final rows = await db.query('links',
+      where: '(a = ? AND b = ?) OR (a = ? AND b = ?)',
+      whereArgs: [nodeA.id, nodeB.id, nodeB.id, nodeA.id]);
+
+  return rows.length > 0;
 }

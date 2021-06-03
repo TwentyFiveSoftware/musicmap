@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/NodeInfo.dart';
+import '../database/links.dart';
 
 class SelectNodesProvider with ChangeNotifier {
   bool _selecting = false;
@@ -22,8 +23,9 @@ class SelectNodesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void nodeToggleSelected(NodeInfo node) {
+  void nodeToggleSelected(NodeInfo node) async {
     if (_startNode == node) return;
+    if (await doesLinkExists(_startNode, node)) return;
 
     if (_selectedNodes.contains(node))
       _selectedNodes.remove(node);
