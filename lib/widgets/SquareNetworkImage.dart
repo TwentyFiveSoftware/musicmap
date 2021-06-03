@@ -17,7 +17,7 @@ class SquareNetworkImage extends StatelessWidget {
         width: size,
         height: size,
         decoration: BoxDecoration(
-          border: Border.all(color: Theme.of(context).hintColor),
+          border: Border.all(color: Theme.of(context).primaryColorLight),
         ),
       ),
     );

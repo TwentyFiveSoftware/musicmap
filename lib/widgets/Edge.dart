@@ -10,7 +10,8 @@ class Edge extends StatelessWidget {
   final NodeInfo toNodeInfo;
   final bool isLink;
 
-  Edge(this.currentlyMovedNodeInfo, this.fromNodeInfo, this.toNodeInfo, this.isLink);
+  Edge(this.currentlyMovedNodeInfo, this.fromNodeInfo, this.toNodeInfo,
+      this.isLink);
 
   @override
   Widget build(BuildContext context) {
@@ -30,30 +31,16 @@ class Edge extends StatelessWidget {
     return Positioned(
       top: 0,
       left: 0,
-      child: Connection(
-        fromNodeInfo.x + fromNodeOffset + tempFromNodeOffset.dx,
-        fromNodeInfo.y + fromNodeOffset + tempFromNodeOffset.dy,
-        toNodeInfo.x + toNodeOffset + tempToNodeOffset.dx,
-        toNodeInfo.y + toNodeOffset + tempToNodeOffset.dy,
-        isLink,
+      child: CustomPaint(
+        painter: PathPainter(
+            fromNodeInfo.x + fromNodeOffset + tempFromNodeOffset.dx,
+            fromNodeInfo.y + fromNodeOffset + tempFromNodeOffset.dy,
+            toNodeInfo.x + toNodeOffset + tempToNodeOffset.dx,
+            toNodeInfo.y + toNodeOffset + tempToNodeOffset.dy,
+            isLink
+                ? Theme.of(context).accentColor
+                : Theme.of(context).primaryColorLight),
       ),
-    );
-  }
-}
-
-class Connection extends StatelessWidget {
-  final double fromX;
-  final double fromY;
-  final double toX;
-  final double toY;
-  final bool isLink;
-
-  Connection(this.fromX, this.fromY, this.toX, this.toY, this.isLink);
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: PathPainter(this.fromX, this.fromY, this.toX, this.toY, isLink),
     );
   }
 }
@@ -63,14 +50,14 @@ class PathPainter extends CustomPainter {
   final double fromY;
   final double toX;
   final double toY;
-  final bool bold;
+  final Color color;
 
-  PathPainter(this.fromX, this.fromY, this.toX, this.toY, this.bold);
+  PathPainter(this.fromX, this.fromY, this.toX, this.toY, this.color);
 
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = this.bold ? Color(0xFFA0CE81) : Colors.white38
+      ..color = this.color
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2
       ..strokeJoin = StrokeJoin.round;
@@ -80,7 +67,8 @@ class PathPainter extends CustomPainter {
     double deltaY = this.toY - this.fromY;
 
     path.moveTo(this.fromX, this.fromY);
-    path.cubicTo(this.fromX, this.fromY + 0.5 * deltaY, this.toX, this.toY - 0.5 * deltaY, this.toX, this.toY);
+    path.cubicTo(this.fromX, this.fromY + 0.5 * deltaY, this.toX,
+        this.toY - 0.5 * deltaY, this.toX, this.toY);
 
     canvas.drawPath(path, paint);
   }

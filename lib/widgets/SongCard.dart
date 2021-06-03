@@ -10,40 +10,41 @@ class SongCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColorDark,
-          border: this.selected
-              ? Border.all(color: Theme.of(context).accentColor)
-              : null,
-        ),
-        child: Row(
-          children: [
-            SquareNetworkImage(songNodeInfo.imageUrl, 64),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    songNodeInfo.title,
-                    style: TextStyle(fontSize: 17.5),
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(color: Theme.of(context).shadowColor),
+        ],
+        color: Theme.of(context).primaryColorDark,
+        border: this.selected
+            ? Border.all(color: Theme.of(context).accentColor)
+            : null,
+      ),
+      child: Row(
+        children: [
+          SquareNetworkImage(songNodeInfo.imageUrl, 64),
+          Padding(
+            padding: const EdgeInsets.only(left: 20, right: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  songNodeInfo.title,
+                  style: TextStyle(fontSize: 17.5),
+                ),
+                SizedBox(height: 2),
+                Text(
+                  songNodeInfo.subtitle,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Theme.of(context).textTheme.bodyText1.color,
                   ),
-                  SizedBox(height: 2),
-                  Text(
-                    songNodeInfo.subtitle,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Theme.of(context).textTheme.bodyText1.color,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

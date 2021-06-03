@@ -10,27 +10,30 @@ class ArtistCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColorDark,
-          border: this.selected ? Border.all(color: Theme.of(context).accentColor) : null,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SquareNetworkImage(artistNodeInfo.imageUrl, 100),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Text(
-                artistNodeInfo.title,
-                style: TextStyle(fontSize: 17),
-                // textAlign: TextAlign.center,
-              ),
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(color: Theme.of(context).shadowColor),
+        ],
+        color: Theme.of(context).primaryColorDark,
+        border: this.selected
+            ? Border.all(color: Theme.of(context).accentColor)
+            : null,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SquareNetworkImage(artistNodeInfo.imageUrl, 100),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Text(
+              artistNodeInfo.title,
+              style: TextStyle(fontSize: 17),
+              // textAlign: TextAlign.center,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

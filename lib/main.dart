@@ -11,6 +11,7 @@ import './screens/CreateLinkScreen.dart';
 import './screens/LinkDetailsScreen.dart';
 import './providers/MusicMapProvider.dart';
 import './providers/SelectNodesProvider.dart';
+import './config/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,38 +35,8 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'MusicMap',
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Color(0xFFFFFFFF),
-        primaryColorDark: Color(0xFFF4F4F4),
-        accentColor: Color(0xFFA0CE81),
-        backgroundColor: Color(0xFFFFFFFF),
-        scaffoldBackgroundColor: Color(0xFFFFFFFF),
-        textTheme: TextTheme(
-          bodyText2: TextStyle(color: Colors.black),
-          bodyText1:
-              TextStyle(color: Colors.black45, fontWeight: FontWeight.normal),
-        ),
-        hintColor: Colors.black38,
-        textSelectionTheme:
-            TextSelectionThemeData(cursorColor: Color(0xFFA0CE81)),
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: Color(0xFF282C34),
-        primaryColorDark: Color(0xFF21252B),
-        accentColor: Color(0xFFA0CE81),
-        backgroundColor: Color(0xFF282C34),
-        scaffoldBackgroundColor: Color(0xFF282C34),
-        textTheme: TextTheme(
-          bodyText2: TextStyle(color: Colors.white),
-          bodyText1:
-              TextStyle(color: Colors.white60, fontWeight: FontWeight.normal),
-        ),
-        hintColor: Colors.white38,
-        textSelectionTheme:
-            TextSelectionThemeData(cursorColor: Color(0xFFA0CE81)),
-      ),
+      theme: getLightTheme(),
+      darkTheme: getDarkTheme(),
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
