@@ -1,14 +1,14 @@
 # MusicMap
 
-An app for arranging your favourite songs and artists in a visual way on a map.
+An app for arranging your favorite songs and artists in a visual way on a map.
 
 
 ## What does it look like?
 
 <div>
-  <img src="static/map.jpg" width="33%">
-  <img src="static/song.jpg" width="33%">
-  <img src="static/artist.jpg" width="33%">
+  <img src="static/map.jpg" width="30%">
+  <img src="static/song.jpg" width="30%">
+  <img src="static/artist.jpg" width="30%">
 </div>
 
 
@@ -18,7 +18,7 @@ This app uses the [Flutter](https://flutter.dev/) framework to easily compile to
 
 It also uses the [Spotify API](https://developer.spotify.com/documentation/web-api/) when searching for songs. The response from the API contains information about the artist, the album and the song, including the images.
 
-When adding a song, the data is stored in a local SQLite database. A node on the map is created for every stored song and every artists which are connected by lines to represent their relationship.
+When adding a song, the data is stored in a local SQLite database. A node on the map is created for every stored song and artist which are connected by lines to represent their relationship.
 
 You can easily rearrange the nodes on the map by simply dragging them around.
 
